@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>万乐 · 产品经理面试主页</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --paper:#f4f0e6;         /* 米色底 */
+  --paper2:#efe9db;        /* 略深米 */
+  --card:#faf7ef;          /* 卡片米白 */
+  --card2:#f1ecdd;
+  --line:rgba(46,74,58,.12);
+  --line2:rgba(46,74,58,.22);
+  --green:#2f5d45;         /* 深绿主色 */
+  --green-d:#243f30;       /* 更深绿 */
+  --green-l:#4a7a5e;       /* 浅一点的绿 */
+  --gold:#a8894f;          /* 低饱和金,做点缀 */
+  --tx:#243528;            /* 主文字-深墨绿 */
+  --tx2:#4d5f52;           /* 次文字 */
+  --tx3:#7d8a80;           /* 弱文字 */
+  --pos:#2f7d52; --neg:#b0553f; --warn:#a8894f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','PingFang SC','Microsoft YaHei',sans-serif;
+  background:var(--paper); color:var(--tx); line-height:1.72;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.serif{font-family:'Noto Serif SC','Songti SC',serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px}
+
+/* ============ NAV ============ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(14px);background:rgba(244,240,230,.82);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:16px;letter-spacing:.3px;color:var(--green)}
+.brand .mk{width:26px;height:26px;border-radius:8px;background:var(--green);display:grid;place-items:center;color:var(--paper);font-family:'Noto Serif SC',serif;font-weight:700;font-size:14px;flex:none}
+.navlinks{display:flex;gap:28px;font-size:13.5px;font-weight:500;color:var(--tx2)}
+.navlinks a{position:relative;transition:color .2s}
+.navlinks a:hover{color:var(--green)}
+.navlinks a::after{content:'';position:absolute;left:0;bottom:-5px;height:1.5px;width:0;background:var(--green);transition:width .25s}
+.navlinks a:hover::after{width:100%}
+.nav-cta{padding:8px 17px;border-radius:8px;background:var(--green);color:var(--paper);font-size:13px;font-weight:600;transition:background .2s,transform .15s}
+.nav-cta:hover{background:var(--green-d);transform:translateY(-1px)}
+@media(max-width:860px){.navlinks{display:none}}
+
+/* ============ HERO ============ */
+.hero{position:relative;padding:132px 0 84px;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-140px;width:520px;height:520px;background:radial-gradient(circle,rgba(47,93,69,.10),transparent 66%);z-index:0}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:center}
+.h-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border:1px solid var(--line2);border-radius:999px;font-size:12.5px;color:var(--green);font-weight:600;margin-bottom:26px;background:rgba(47,93,69,.05)}
+.h-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.hero h1{font-size:clamp(34px,5.2vw,56px);font-weight:700;line-height:1.18;letter-spacing:-.5px;color:var(--green-d)}
+.hero h1 .hl{color:var(--green);position:relative}
+.hero h1 .hl::after{content:'';position:absolute;left:0;right:0;bottom:4px;height:10px;background:rgba(168,137,79,.24);z-index:-1}
+.hero .lead{margin-top:26px;font-size:16.5px;color:var(--tx2);max-width:600px;line-height:1.85}
+.hero .lead b{color:var(--tx);font-weight:600}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.hm{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:1px solid var(--line);border-radius:9px;background:var(--card);font-size:13px;color:var(--tx2)}
+.hm b{color:var(--green);font-weight:600}
+.hero-btns{display:flex;flex-wrap:wrap;gap:13px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 25px;border-radius:9px;font-weight:600;font-size:14.5px;transition:transform .15s,box-shadow .25s,background .2s}
+.btn.primary{background:var(--green);color:var(--paper)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(47,93,69,.28)}
+.btn.ghost{border:1px solid var(--line2);color:var(--green);background:var(--card)}
+.btn.ghost:hover{border-color:var(--green);transform:translateY(-2px)}
+.btn svg{width:16px;height:16px}
+/* portrait */
+.portrait{position:relative}
+.portrait .frame{border-radius:16px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 24px 60px rgba(36,63,48,.22);background:var(--card)}
+.portrait .frame img{width:100%;display:block}
+.portrait::after{content:'';position:absolute;left:-16px;top:-16px;width:74px;height:74px;border-left:2px solid var(--gold);border-top:2px solid var(--gold);border-radius:6px 0 0 0;opacity:.6}
+.portrait .cap{position:absolute;right:-10px;bottom:20px;background:var(--green);color:var(--paper);padding:9px 16px;border-radius:9px;font-size:12.5px;font-weight:600;box-shadow:0 8px 20px rgba(36,63,48,.3)}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.portrait{max-width:280px;margin:0 auto}}
+
+/* one-liner callout */
+.oneliner{margin-top:52px;padding:30px 34px 30px 40px;border-radius:14px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);position:relative}
+.oneliner .qm{position:absolute;top:6px;left:16px;font-size:56px;font-family:'Noto Serif SC',serif;color:rgba(47,93,69,.16);line-height:1}
+.oneliner p{position:relative;font-size:16px;color:var(--tx);line-height:1.9}
+.oneliner p b{color:var(--green);font-weight:600}
+
+/* ============ SECTION SHELL ============ */
+section{padding:88px 0;position:relative}
+.s-head{margin-bottom:46px}
+.s-kick{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+.s-title{font-size:clamp(26px,3.4vw,36px);font-weight:700;letter-spacing:-.3px;color:var(--green-d)}
+.s-sub{margin-top:15px;font-size:15.5px;color:var(--tx2);max-width:720px;line-height:1.85}
+.alt{background:var(--paper2)}
+
+/* ============ DEMO / PRODUCT ============ */
+.demo-card{display:grid;grid-template-columns:1.02fr .98fr;gap:0;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:var(--card)}
+.demo-left{padding:44px 42px}
+.demo-left h3{font-size:22px;font-weight:700;margin-bottom:8px;color:var(--green-d)}
+.demo-left .subline{color:var(--tx3);font-size:13px;margin-bottom:28px}
+.demo-feats{display:flex;flex-direction:column;gap:22px;margin-bottom:34px}
+.feat{display:flex;gap:15px}
+.feat .idx{flex:none;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:14px;background:rgba(47,93,69,.1);color:var(--green);font-family:'Noto Serif SC',serif}
+.feat h4{font-size:15.5px;font-weight:700;margin-bottom:4px;color:var(--tx)}
+.feat p{font-size:13.5px;color:var(--tx2);line-height:1.8}
+.feat p b{color:var(--green);font-weight:600}
+.demo-right{background:linear-gradient(155deg,#eef2ea,#e6ecdf);display:flex;align-items:center;justify-content:center;padding:38px;border-left:1px solid var(--line)}
+.mock{width:100%;max-width:350px}
+.mock .browser{border-radius:13px;overflow:hidden;border:1px solid var(--line2);background:var(--card);box-shadow:0 24px 54px rgba(36,63,48,.2)}
+.mock .bar{display:flex;align-items:center;gap:6px;padding:11px 14px;background:var(--card2);border-bottom:1px solid var(--line)}
+.mock .bar i{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--line2)}
+.mock .bar .u{flex:1;margin-left:10px;height:19px;border-radius:5px;background:var(--paper2);font-size:9.5px;color:var(--tx3);display:flex;align-items:center;padding:0 10px;overflow:hidden;white-space:nowrap}
+.mock .body{padding:18px 16px;background:var(--card)}
+.mk-store{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.mk-av{width:34px;height:34px;border-radius:9px;background:var(--green);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--paper)}
+.mk-store .nm{font-size:13px;font-weight:700;color:var(--tx)}
+.mk-store .sub{font-size:10px;color:var(--tx3)}
+.mk-kpi{display:flex;gap:9px;margin-bottom:14px}
+.mk-kpi .c{flex:1;background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.mk-kpi .lb{font-size:9px;color:var(--tx3)}
+.mk-kpi .vl{font-size:14px;font-weight:800;margin-top:3px;color:var(--tx)}
+.mk-kpi .vl.g{color:var(--pos)}
+.mk-score{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(47,93,69,.06);border:1px solid var(--line);border-radius:8px;margin-bottom:13px}
+.mk-ring{width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--green) 0 82%,var(--line2) 82% 100%);display:grid;place-items:center;flex:none}
+.mk-ring span{width:28px;height:28px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--green)}
+.mk-score .t .a{font-size:11px;font-weight:700;color:var(--tx)}
+.mk-score .t .b{font-size:9px;color:var(--tx3)}
+.mk-wf{display:flex;align-items:flex-end;gap:6px;height:60px}
+.mk-wf b{flex:1;border-radius:3px 3px 0 0;display:block}
+.demo-cta-wrap{margin-top:6px;display:flex;gap:12px;flex-wrap:wrap}
+
+/* ============ THINKING ============ */
+.dec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.dec{padding:30px 26px;border-radius:14px;background:var(--card);border:1px solid var(--line);transition:transform .2s,box-shadow .2s;position:relative}
+.dec:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(36,63,48,.1)}
+.dec .num{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:rgba(47,93,69,.28);margin-bottom:12px}
+.dec .ico{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;margin-bottom:16px;background:rgba(47,93,69,.09)}
+.dec .ico svg{width:23px;height:23px}
+.dec h3{font-size:17px;font-weight:700;margin-bottom:10px;color:var(--green-d)}
+.dec p{font-size:13.8px;color:var(--tx2);line-height:1.82}
+.dec p b{color:var(--green);font-weight:600}
+
+/* metrics thinking block */
+.metrics{margin-top:30px;padding:34px 38px;border-radius:16px;background:var(--card);border:1px solid var(--line2)}
+.metrics .mh{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.metrics .mh .badge{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold);text-transform:uppercase}
+.metrics h3{font-size:19px;font-weight:700;color:var(--green-d)}
+.metrics .mdesc{font-size:14px;color:var(--tx2);margin-bottom:26px;line-height:1.8}
+.mcols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mcol{padding:22px 20px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+.mcol .ct{font-size:14.5px;font-weight:700;color:var(--green);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.mcol .ct .n{width:22px;height:22px;border-radius:6px;background:rgba(47,93,69,.12);display:grid;place-items:center;font-size:11px;font-family:'Noto Serif SC',serif}
+.mcol .cd{font-size:12px;color:var(--tx3);margin-bottom:14px}
+.mcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.mcol li{position:relative;padding-left:16px;font-size:13px;color:var(--tx2);line-height:1.65}
+.mcol li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--green-l)}
+.mcol li b{color:var(--tx);font-weight:600}
+.mcol.star{background:rgba(47,93,69,.05);border-color:var(--line2)}
+
+/* ============ MAPPING TABLE ============ */
+.map-tbl{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--card)}
+.map-tbl th{background:var(--green);padding:15px 20px;text-align:left;font-size:12.5px;font-weight:600;color:var(--paper);letter-spacing:.5px}
+.map-tbl td{padding:17px 20px;border-top:1px solid var(--line);font-size:13.8px;vertical-align:top;line-height:1.75}
+.map-tbl tr:hover td{background:rgba(47,93,69,.03)}
+.map-tbl .cap{font-weight:700;color:var(--green-d);font-size:14.5px;white-space:nowrap}
+.map-tbl .req{color:var(--tx2)}
+.map-tbl .mine{color:var(--tx2)}
+.map-tbl .mine .m{color:var(--neg);font-weight:700}
+.map-tbl .mine b{color:var(--green);font-weight:600}
+
+/* ============ TIMELINE ============ */
+.tl{position:relative;padding-left:34px}
+.tl::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--green),var(--gold))}
+.tl-item{position:relative;padding-bottom:40px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item .node{position:absolute;left:-33px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:3px solid var(--green);box-shadow:0 0 0 4px rgba(47,93,69,.1)}
+.tl-item .when{font-size:12.5px;color:var(--gold);font-weight:700;letter-spacing:.5px}
+.tl-item h4{font-size:17px;font-weight:700;margin:6px 0 3px;color:var(--green-d)}
+.tl-item .role{font-size:13px;color:var(--tx3);margin-bottom:13px}
+.tl-item ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.tl-item li{position:relative;padding-left:18px;font-size:13.8px;color:var(--tx2);line-height:1.78}
+.tl-item li::before{content:'';position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--green-l)}
+.tl-item li b{color:var(--tx);font-weight:600}
+.tl-item li .m{color:var(--neg);font-weight:700}
+
+/* ============ FOOTER ============ */
+footer{padding:72px 0 52px;border-top:1px solid var(--line);text-align:center;background:var(--paper2)}
+footer h3{font-size:clamp(21px,2.8vw,28px);font-weight:700;max-width:660px;margin:0 auto 24px;color:var(--green-d);line-height:1.6}
+footer h3 .hl{color:var(--green);position:relative}
+footer h3 .hl::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:9px;background:rgba(168,137,79,.24);z-index:-1}
+.contact{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:8px}
+.contact a,.contact span{display:inline-flex;align-items:center;gap:8px;padding:11px 19px;border:1px solid var(--line2);border-radius:10px;background:var(--card);font-size:13.5px;color:var(--tx2);transition:border-color .2s,color .2s}
+.contact a:hover{border-color:var(--green);color:var(--green)}
+footer .copy{margin-top:34px;font-size:12px;color:var(--tx3)}
+
+@media(max-width:900px){
+  .demo-card{grid-template-columns:1fr}
+  .demo-right{border-left:none;border-top:1px solid var(--line)}
+  .dec-grid,.mcols{grid-template-columns:1fr}
+  .map-tbl thead{display:none}
+  .map-tbl td{display:block;border-top:none;padding:6px 20px}
+  .map-tbl td.cap{padding-top:16px;font-size:15px}
+  .map-tbl tr{display:block;border-top:1px solid var(--line2)}
+}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="mk">乐</span>万乐 Lander · Portfolio</div>
+    <div class="navlinks">
+      <a href="#product">产品介绍</a>
+      <a href="#thinking">产品思路</a>
+      <a href="#match">能力匹配</a>
+      <a href="#exp">实习经历</a>
+    </div>
+    <a class="nav-cta" href="demo-cn.html" target="_blank">打开 Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="h-tag"><span class="dot"></span>应聘 · 商家账单 / 智能经营分析产品经理 · TikTok Shop</span>
+      <h1 class="serif">我的<span class="hl">第一次</span><br/>产品经理面试</h1>
+      <p class="lead">上海外国语大学 27 届。面试前，我根据 JD 独立做了一个面向<b>印尼商家的结算与资金 · 智能经营分析产品</b> Demo。这个主页，想和您聊聊我的产品思路与个人优势。</p>
+      <div class="hero-meta">
+        <span class="hm">📍 坐标 <b>上海</b></span>
+        <span class="hm">🎓 上海外国语大学 · <b>GPA 3.89/4.0（前10%）</b></span>
+        <span class="hm">💼 TTS 东南亚 · 得物 · 小红书</span>
+        <span class="hm">🤖 <b>AI 探索中</b></span>
+      </div>
+      <div class="hero-btns">
+        <a class="btn primary" href="demo-cn.html" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          先看我做的产品 Demo
+        </a>
+        <a class="btn ghost" href="demo-en.html" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          English Demo
+        </a>
+        <a class="btn ghost" href="#thinking">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          了解我的产品思路
+        </a>
+        <a class="btn ghost" href="#match">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          了解我的能力
+        </a>
+      </div>
+    </div>
+    <div class="portrait">
+      <div class="frame"><img src="https://p-mira-img-sign-sgnontt.byteintl.net/tos-mya-i-xobrcjvdq7/a159ced8df864cd5aec9347b4ea51033.jpg~tplv-xobrcjvdq7-image.jpeg?lk3s=3523e930&x-orig-authkey=miraorigin&x-orig-expires=1788076800&x-orig-sign=Rah5EtoJQ7Q9XHiuX76Vt9vatCs%3D" alt="万乐 职业照"/></div>
+      <div class="cap">万乐 · Lander</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="oneliner reveal">
+      <span class="qm">"</span>
+      <p>结合 TTS 内容电商的特点，商家的每一笔钱都要经过成交、佣金、退款、投流、物流层层扣减，往往“到账数和自己算的利润对不上”。所以我把产品拆成一条闭环：先用<b>平台口径</b>把每一分钱追溯到笔——从结算、到账到对账；再用<b>经营口径</b>帮商家看懂到底赚没赚、为什么；最后借助 AI 承接各地区的电商玩法，让商家看完就能采取一个经营动作。</p>
+    </div>
+  </div>
+</header>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="s-kick">Part 01 — The Product</span>
+      <h2 class="s-title serif">我先介绍一下这个产品</h2>
+      <p class="s-sub">这是一个面向印尼站商家的结算与资金 · 智能经营分析产品，从“钱到账”到“看懂经营”贯穿一条闭环。它把平台侧散落的结算、到账、佣金、退款、投流数据收拢，先讲清楚每一分钱，再帮商家看懂赚没赚。产品主要包含五个模块。</p>
+    </div>
+
+    <div class="demo-card reveal">
+      <div class="demo-left">
+        <h3>印尼站商家 · 结算与资金 · 经营分析</h3>
+        <div class="subline">看懂经营 · 差异对账 · 深入经营分析 · 账本导出 · AI 解答</div>
+        <div class="demo-feats">
+          <div class="feat">
+            <span class="idx serif">壹</span>
+            <div><h4>看懂经营</h4><p>以<b>平台口径</b>把每一分钱讲清楚：结算瀑布图从 GMV 一层层扣到实收，现金流生命周期看清到账时点与账期打款规则，让“到账数为什么是这个数”一目了然。</p></div>
+          </div>
+          <div class="feat">
+            <span class="idx serif">贰</span>
+            <div><h4>差异对账</h4><p>差异台账把<b>应结与实结</b>逐笔比对，自动标出对不上的订单与差异原因，商家不必再手动核对，一眼看清钱差在哪、差了多少。</p></div>
+          </div>
+          <div class="feat">
+            <span class="idx serif">叁</span>
+            <div><h4>深入经营分析</h4><p>以<b>经营口径</b>还原真实利润，配合经营健康分与同行对比线；再按 <b>by 内容场维度、by 达人维度</b> 等维度拆解，帮商家理解在 TTS 上的经营，后续还可按各地区需求承接特色玩法，具备可拓展性。</p></div>
+          </div>
+          <div class="feat">
+            <span class="idx serif">肆</span>
+            <div><h4>账本导出</h4><p>一键<b>导出商家所需的账单与数据</b>，方便对账、报税与二次分析，让线上看到的数和线下用的数保持一致。</p></div>
+          </div>
+          <div class="feat">
+            <span class="idx serif">伍</span>
+            <div><h4>AI 解答</h4><p>贯穿全站的统一 <b>Rami AI 助手</b>支持<b>点选式提问</b>——点哪个数就问哪个数，实时解答经营疑惑，看不懂就问，问了还能给出可落地的下一步。</p></div>
+          </div>
+        </div>
+        <div class="demo-cta-wrap">
+          <a class="btn primary" href="demo-cn.html" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            在新窗口打开完整 Demo
+          </a>
+          <a class="btn ghost" href="demo-en.html" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            English version
+          </a>
+        </div>
+      </div>
+      <div class="demo-right">
+        <div class="mock">
+          <div class="browser">
+            <div class="bar"><i></i><i></i><i></i><span class="u">seller-insight · 印尼站 · ID</span></div>
+            <div class="body">
+              <div class="mk-store">
+                <div class="mk-av serif">店</div>
+                <div><div class="nm">印尼站家居商家</div><div class="sub">Home &amp; Living · 结算与资金视图</div></div>
+              </div>
+              <div class="mk-kpi">
+                <div class="c"><div class="lb">本月 GMV</div><div class="vl">Rp 1.24B</div></div>
+                <div class="c"><div class="lb">到手净利</div><div class="vl g">Rp 96.8M</div></div>
+              </div>
+              <div class="mk-score">
+                <div class="mk-ring"><span>82</span></div>
+                <div class="t"><div class="a">经营健康分 82</div><div class="b">优于同行 65%，退款率偏高需关注</div></div>
+              </div>
+              <div class="mk-wf">
+                <b style="height:100%;background:var(--green)"></b>
+                <b style="height:80%;background:var(--neg)"></b>
+                <b style="height:62%;background:var(--gold)"></b>
+                <b style="height:48%;background:var(--neg)"></b>
+                <b style="height:38%;background:var(--gold)"></b>
+                <b style="height:30%;background:var(--pos)"></b>
+              </div>
+              <div style="text-align:center;margin-top:10px;font-size:9px;color:var(--tx3)">GMV → 退款 → 佣金 → 投流 → 履约 → 实收净利</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THINKING -->
+<section id="thinking" class="alt">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="s-kick">Part 02 — Product Thinking</span>
+      <h2 class="s-title serif">我做这个产品的思路</h2>
+      <p class="s-sub">这个产品的设计思路围绕三个层次层层递进：先把每一分钱讲清楚，再帮商家看懂赚没赚，最后借助 AI 承接各地区的电商玩法，让“看账 → 提问 → 采取动作”形成闭环。</p>
+    </div>
+
+    <div class="dec-grid">
+      <div class="dec reveal">
+        <div class="num serif">01</div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M3 3v18h18M7 15l4-6 4 3 5-8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>先把钱讲清楚</h3>
+        <p>第一层是最基础的能力：以<b>平台口径</b>把每一分钱追溯到笔。结算瀑布把 GMV 到实收的层层扣减拆开，现金流生命周期讲清到账时点与账期打款规则，差异台账逐笔对账，商家无需在多个后台之间反复核对。</p>
+      </div>
+      <div class="dec reveal">
+        <div class="num serif">02</div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 2a4 4 0 014 4v1a4 4 0 010 8v1a4 4 0 01-8 0v-1a4 4 0 010-8V6a4 4 0 014-4z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11" r="1.4" fill="var(--green)"/></svg></div>
+        <h3>再帮商家看懂</h3>
+        <p>第二层从“到账”走向“经营”：用<b>经营口径</b>还原真实利润，配合健康分与同行对比线，围绕电商平台的关键指标把好处讲清楚；同时配合 <b>Rami AI 实时解答疑惑</b>，借助 AI 助力理解，让商家对自己的电商经营状况有一个完整的了解。</p>
+      </div>
+      <div class="dec reveal">
+        <div class="num serif">03</div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M20 12a8 8 0 11-8-8M20 12h-8V4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>做深经营 · 可拓展</h3>
+        <p>第三层做深经营分析：加入 <b>by 内容场维度、by 达人维度</b> 等经营分析维度，帮商家更好地理解自己在 TTS 上的经营；后续还可以根据各个地区的需求承接特色玩法，具备良好的可拓展性。同时加入了<b>数据导出</b>功能，让商家随时导出需要的数据。</p>
+      </div>
+    </div>
+
+    <div class="metrics reveal">
+      <div class="mh">
+        <span class="badge">全链路思考</span>
+      </div>
+      <h3 class="serif">这个产品该用什么指标来考核</h3>
+      <p class="mdesc">作为一款面向 B 端商家的产品，除了功能本身，我也梳理了它上线后应如何被衡量。考核指标分为三层，从活跃基本盘，到使用深度，再到证明产品价值的北极星指标——闭环转化。</p>
+      <div class="mcols">
+        <div class="mcol">
+          <div class="ct"><span class="n serif">1</span>活跃度基本盘</div>
+          <div class="cd">愿不愿意来看</div>
+          <ul>
+            <li><b>渗透率</b>：目标商家的账单模块使用渗透率</li>
+            <li><b>活跃度</b>：周活商家数 · DAU / WAU</li>
+            <li><b>留存率</b>：用过一次后，下个账期是否还回来</li>
+          </ul>
+        </div>
+        <div class="mcol">
+          <div class="ct"><span class="n serif">2</span>使用深度</div>
+          <div class="cd">看得进、问得出</div>
+          <ul>
+            <li><b>口径查看数 / 人</b>：平台口径与经营口径都看了多少</li>
+            <li><b>Rami 提问率</b>：多少商家真的在问“为什么”</li>
+            <li><b>账单导出使用率</b>：对账场景是否被真正用起来</li>
+          </ul>
+        </div>
+        <div class="mcol star">
+          <div class="ct"><span class="n serif">3</span>北极星指标</div>
+          <div class="cd">有没有改变商家</div>
+          <ul>
+            <li><b>闭环转化率</b>：周活商家中完成一次“看账 → 提问 → 采取一个经营动作”的比例</li>
+            <li><b>AB test 增量</b>：使用与未使用产品的经营差异</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics reveal" style="margin-top:22px">
+      <div class="mh">
+        <span class="badge">全链路思考</span>
+      </div>
+      <h3 class="serif">在做之前，我也想清楚了第一步先做什么</h3>
+      <p class="mdesc">一个产品不可能一次覆盖所有需求，所以我对目标用户、核心功能和上线节奏做了取舍，让第一版的价值尽可能清晰。</p>
+      <div class="mcols">
+        <div class="mcol">
+          <div class="ct"><span class="n serif">A</span>先服务谁</div>
+          <div class="cd">覆盖与优先级</div>
+          <ul>
+            <li>账单、现金与差异对账是<b>所有商家的刚需</b>，第一版就<b>面向全体商家开放</b>，这是产品的底座，不设门槛</li>
+            <li>真正需要做优先级取舍的是往上的<b>深入经营分析</b>——先把最普遍、最高频的经营问题讲透，特色维度与地区玩法再逐步铺开</li>
+          </ul>
+        </div>
+        <div class="mcol">
+          <div class="ct"><span class="n serif">B</span>先看哪些数</div>
+          <div class="cd">核心功能聚焦</div>
+          <ul>
+            <li>调研了竞品平台，也回到 <b>TTS 商家真实关注的数据</b>，先做透<b>结算瀑布 + 双口径利润 + 经营健康分</b>，把“钱清楚、赚没赚”两件事讲明白</li>
+            <li>不堆砌成交额、单量、CTR 等次要指标，让商家第一眼抓住关键信号</li>
+          </ul>
+        </div>
+        <div class="mcol">
+          <div class="ct"><span class="n serif">C</span>先怎么做深</div>
+          <div class="cd">演进节奏</div>
+          <ul>
+            <li>在基础账单之上加入<b>经营分析模块与特色维度</b>（by 内容场、by 达人等），给商家更完整的理解，并做了面向<b>不同地区、不同时间段</b>的适配</li>
+            <li>Rami AI 按 <b>解读 → 归因 → 建议</b> 逐步递进，先把账讲清楚，再谈主动决策</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATCH -->
+<section id="match">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="s-kick">Part 03 — Competency Match</span>
+      <h2 class="s-title serif">产品经理所需能力，与我对应的能力和经历</h2>
+    </div>
+
+    <table class="map-tbl reveal">
+      <thead>
+        <tr>
+          <th style="width:16%">产品经理所需能力</th>
+          <th style="width:84%">我对应的能力与经历</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cap">设计</td>
+          <td class="mine">在得物负责<b>色号规律配置系统 3.0</b> 的优化，梳理同款多色场景下的匹配规律，推动落地后颜色自动匹配率提升约 <span class="m">12pp</span>，让原本依赖人工判断的场景走向自动化。</td>
+        </tr>
+        <tr>
+          <td class="cap">数据</td>
+          <td class="mine">学习过 <b>Python / SQL / R 语言</b>。在字节从<b>覆盖、效率、增量三维度</b>搭建组货平台价值分析，用组货商与非组货商品的直播漏斗数据论证平台价值，推动商家团队追加专项激励。</td>
+        </tr>
+        <tr>
+          <td class="cap">技术</td>
+          <td class="mine">在字节已经用 <b>AI Agent 自动跑通日报与周报的取数</b>，把重复的数据处理工作交给工具，自己更专注在分析和判断上。</td>
+        </tr>
+        <tr>
+          <td class="cap">市场洞察</td>
+          <td class="mine">在小红书服饰潮流行业，<b>输出行业月报与类目洞察</b>，拆解品牌搜索趋势、人群资产与投放结构，为客户提供行业对标与投放策略参考。</td>
+        </tr>
+        <tr>
+          <td class="cap">沟通</td>
+          <td class="mine">在 TTS <b>与产研团队协作推进</b>组货推品的多个优化项，把运营侧发现的问题转化为可落地的产品方案，并推动上线。</td>
+        </tr>
+        <tr>
+          <td class="cap">愿景</td>
+          <td class="mine">我的学历比较普通，此前也一直没有机会做产品相关的实习，但正因如此，我对产品经理这个岗位始终抱有<b>浓厚的兴趣和热情</b>，也愿意为它多走一步、多做一点准备。</td>
+        </tr>
+        <tr>
+          <td class="cap">执行</td>
+          <td class="mine">我做事喜欢有<b>完整的闭环</b>，有头有尾。在字节参与组货推品策略迭代与产品优化的全流程，从发现问题、推动落地到持续复盘，尽量把每一件事做完整。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="exp" class="alt">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <span class="s-kick">Part 04 — Experience</span>
+      <h2 class="s-title serif">我的实习经历</h2>
+      <p class="s-sub">按时间线，把我每一段经历完整列在这里。</p>
+    </div>
+
+    <div class="tl reveal">
+      <div class="tl-item">
+        <div class="node"></div>
+        <div class="when">2026.5 — 至今</div>
+        <h4>字节跳动 · TikTok Shop · 东南亚电商</h4>
+        <div class="role">产品策略运营实习生</div>
+        <ul>
+          <li><b>策略迭代</b>：参与组货粗排逻辑重构，将绝对值排序改为 GMV 与订单双维排名制，腰尾部类目曝光占比提升约 <span class="m">20%</span>；推动兜底策略迭代，落地三级→二级→一级分阶段降级及监控机制，兜底成功率提升 <span class="m">45pp</span>。</li>
+          <li><b>精排设计</b>：针对推品高度集中于少数高 GMV 类目的失衡问题，提出精排打散方案并推动产研落地，依据达人各品类动销 GMV 占比精细化排序，推品准确度提升 <span class="m">14pp</span>。</li>
+          <li><b>产品优化</b>：联动用户团队收集达人反馈，推动排序由单一品维度打分重构为<b>人×品维度匹配</b>，达人挂车率提升 <span class="m">8pp</span>。</li>
+          <li><b>商家撮合</b>：从覆盖、效率、增量三维度搭建组货平台价值分析，推动商家团队追加专项激励，撬动单商家平均撮合数增长约 <span class="m">150%</span>。</li>
+          <li><b>AI 提效</b>：借助 AI Agent 将取数等日常工作自动化，落地多个复杂分析场景的自动化工具。</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="node"></div>
+        <div class="when">2025.12 — 2026.5</div>
+        <h4>小红书 · 商业部 · 服饰潮流行业</h4>
+        <div class="role">商业化运营（CBD）实习生</div>
+        <ul>
+          <li><b>客户增长</b>：深度对接 8 个 KA 客户，输出行业月报 4 份、品牌投放月报 20+，支持团队赛道 26 年第一双月业绩 <span class="m">YOY +96%</span>。</li>
+          <li><b>生意复盘</b>：完成 S 级客户第 1 双月投放复盘，拆解品牌搜索趋势、SPU 人群资产与投资结构，复盘结论直接支撑年框续签，金额 <span class="m">YOY +20%</span>。</li>
+          <li><b>直播分析</b>：参与 S 级客户 2000w+ 电商直播复盘，拆解预热期投流 ROI 与新老客流转模型，推动客户认可“种收一体”与“大 SPU 打造”策略。</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="node"></div>
+        <div class="when">2025.8 — 2025.12</div>
+        <h4>得物 · 进口商品全链路</h4>
+        <div class="role">商品产品运营实习生</div>
+        <ul>
+          <li><b>链路优化</b>：推进盘货商品匹配链路 2.0 迭代，梳理 SPU/SKU 合并与现货/期货拆分规则，P0P1 商品 <span class="m">24H 处理率稳定 98%+</span>。</li>
+          <li><b>自动匹配</b>：识别 6 大核心归因与 8 类典型业务场景，优化色号规律配置系统 3.0，同款多色场景颜色自动匹配率提升约 <span class="m">12pp</span>。</li>
+          <li><b>商家策略</b>：基于盘货量与出价率交叉指标，识别 150+ 高需求低转化异常商家，输出异常类型与处理优先级建议 10 余条。</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="node"></div>
+        <div class="when">2025.12 — 2026.4</div>
+        <h4>AI 应用与商业化实践项目</h4>
+        <div class="role">项目组成员</div>
+        <ul>
+          <li>针对柬埔寨市场需求，借助 Vibe Coding <b>从 0 到 1</b> 完成“流量换物”产品原型设计与搭建，跑通核心使用流程。</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="node"></div>
+        <div class="when">2023.11 — 2025.4</div>
+        <h4>上海外国语大学党委宣传部 · 校融媒体中心</h4>
+        <div class="role">社长</div>
+        <ul>
+          <li>负责 75 周年校庆融媒体活动，协调 <b>60+ 人团队</b>完成 30+ 条视频与图文内容，校庆月累计视频号播放量达 <span class="m">40 万+</span>。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <h3 class="serif">感谢您看到这里，<br/>很期待能和您<span class="hl">当面聊聊，也请您多多指正。</span></h3>
+    <div class="contact">
+      <a href="demo-cn.html" target="_blank">🔗 产品 Demo</a>
+      <span>🎓 上海外国语大学 · 27 届</span>
+      <span>📍 上海</span>
+    </div>
+    <div class="copy">万乐 Lander · 商家账单 / 智能经营分析产品经理面试主页</div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Settlement & Cash Center · TikTok Shop Seller Center (Indonesia only)</title>
+<style>
+  :root{
+    /* TTS black / white / red / blue palette */
+    --tt-black:#0b0b0f;
+    --tt-ink:#161823;
+    --tt-white:#ffffff;
+    --tt-red:#fe2c55;
+    --tt-blue:#25f4ee;      /* TTS cyan */
+    --tt-blue-deep:#2d5cff; /* data blue */
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --line:#ececf1;
+    --line-2:#f2f2f5;
+    --txt:#161823;
+    --txt-2:#5b5d6b;
+    --txt-3:#9a9ca8;
+    --green:#12b76a;
+    --amber:#f79009;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+    --shadow-lg:0 12px 40px rgba(16,24,40,.14);
+    --sidebar-w:260px;
+    --ai-w:340px;
+    --top-h:60px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--txt);
+    font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(254,44,85,.16);}
+
+  /* ============ Topbar ============ */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:var(--top-h);z-index:60;
+    background:var(--tt-black);color:#fff;
+    display:flex;align-items:center;gap:16px;padding:0 20px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px;white-space:nowrap;}
+  .brand .logo{
+    width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--tt-red),#ff5c78);font-size:15px;
+  }
+  .brand .logo::after{content:"₿";color:#fff;font-weight:900;}
+  .brand .sub{font-size:12px;color:#a9abb6;font-weight:500;}
+  .topbar .divider{width:1px;height:26px;background:rgba(255,255,255,.12);}
+
+  .badge-id{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+    background:rgba(254,44,85,.16);color:#ff92a8;border:1px solid rgba(254,44,85,.35);
+    padding:5px 11px;border-radius:999px;white-space:nowrap;
+  }
+  .badge-id .dot{width:6px;height:6px;border-radius:50%;background:var(--tt-red);}
+
+  .fx{display:flex;align-items:center;gap:8px;font-size:12px;color:#c7c9d3;white-space:nowrap;}
+  .fx b{color:#fff;font-weight:700;}
+  .fx .fx-tag{font-size:10px;color:#8a8c98;border:1px solid rgba(255,255,255,.14);padding:1px 6px;border-radius:6px;}
+
+  .top-spacer{flex:1;}
+
+  /* Time picker */
+  .timepick{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:4px;}
+  .timepick button{
+    background:transparent;border:none;color:#c7c9d3;font-size:12.5px;font-weight:600;
+    padding:6px 12px;border-radius:7px;cursor:pointer;transition:.15s;white-space:nowrap;
+  }
+  .timepick button:hover{color:#fff;}
+  .timepick button.active{background:#fff;color:var(--tt-ink);}
+  .range-label{font-size:12px;color:#a9abb6;white-space:nowrap;}
+  .range-label b{color:#fff;}
+
+  /* ============ Layout ============ */
+  .layout{display:flex;padding-top:var(--top-h);min-height:100vh;}
+
+  /* Left navigation */
+  .sidebar{
+    width:var(--sidebar-w);flex:none;position:fixed;top:var(--top-h);bottom:0;left:0;
+    background:#fff;border-right:1px solid var(--line);overflow-y:auto;padding:16px 12px 40px;z-index:40;
+  }
+  .nav-shop{display:flex;align-items:center;gap:10px;padding:10px 10px 14px;border-bottom:1px solid var(--line-2);margin-bottom:10px;}
+  .nav-shop .avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#2d5cff,#25f4ee);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;flex:none;}
+  .nav-shop .n{font-weight:700;font-size:13.5px;line-height:1.2;}
+  .nav-shop .r{font-size:11px;color:var(--txt-3);}
+  .nav-group{margin-top:14px;}
+  .nav-group .g-title{font-size:11px;font-weight:700;color:var(--txt-3);letter-spacing:.4px;padding:6px 10px;text-transform:uppercase;display:flex;align-items:center;gap:7px;}
+  .nav-group .g-title .k{font-size:10px;color:#fff;background:var(--tt-ink);border-radius:5px;padding:1px 6px;font-weight:700;}
+  .nav-group.p2 .g-title .k{background:var(--tt-blue-deep);}
+  .nav-group.p3 .g-title .k{background:var(--amber);}
+  .nav-item{
+    display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;cursor:pointer;
+    color:var(--txt-2);font-weight:600;font-size:12.5px;transition:.14s;margin:2px 0;position:relative;
+  }
+  .nav-item .ic{width:18px;text-align:center;font-size:14px;filter:grayscale(.2);flex:none;}
+  .nav-item.indent{margin-left:14px;}
+  .nav-item.indent::after{content:"";position:absolute;left:-8px;top:50%;width:5px;height:1px;background:var(--line);}
+  .nav-item:hover{background:var(--line-2);color:var(--txt);}
+  .nav-item.active{background:rgba(254,44,85,.08);color:var(--tt-red);}
+  .nav-item.active.blue{background:rgba(45,92,255,.08);color:var(--tt-blue-deep);}
+  .nav-item.active::before{content:"";position:absolute;left:-12px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:currentColor;}
+  .nav-tool{margin-top:14px;}
+
+  /* Middle content */
+  .content{margin-left:var(--sidebar-w);margin-right:var(--ai-w);flex:1;padding:26px 30px 80px;min-width:0;}
+  .page{display:none;animation:fade .28s ease;}
+  .page.show{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .page-head{margin-bottom:18px;}
+  .page-head h1{font-size:22px;font-weight:800;margin:0 0 6px;letter-spacing:-.2px;}
+  .page-head p{margin:0;color:var(--txt-2);font-size:13px;max-width:820px;}
+  .caliber-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+  .caliber-tag.plat{background:rgba(45,92,255,.1);color:var(--tt-blue-deep);}
+  .caliber-tag.biz{background:rgba(18,183,106,.12);color:var(--green);}
+
+  /* Card */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
+  .card-h{padding:16px 18px 0;}
+  .card-h h3{margin:0;font-size:15px;font-weight:800;}
+  .card-h .desc{margin:4px 0 0;font-size:12.5px;color:var(--txt-2);}
+  .card-b{padding:18px;}
+  .section-title{font-size:15px;font-weight:800;margin:26px 0 12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .section-title .desc{font-size:12px;font-weight:500;color:var(--txt-3);}
+
+  /* KPI grid */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;}
+  .kpi{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 15px;
+    box-shadow:var(--shadow);position:relative;cursor:pointer;transition:.16s;overflow:hidden;
+  }
+  .kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:#dfe0e6;}
+  .kpi .lab{font-size:12.5px;color:var(--txt-2);font-weight:600;display:flex;align-items:center;gap:6px;min-height:20px;}
+  .kpi .val{font-size:23px;font-weight:800;margin-top:8px;letter-spacing:-.5px;}
+  .kpi .val .cur{font-size:13px;color:var(--txt-3);font-weight:700;margin-right:3px;}
+  .kpi .sub{font-size:11.5px;color:var(--txt-3);margin-top:5px;}
+  .kpi .chip{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;}
+  .chip.up{background:rgba(18,183,106,.12);color:var(--green);}
+  .chip.down{background:rgba(254,44,85,.1);color:var(--tt-red);}
+  .chip.flat{background:var(--line-2);color:var(--txt-2);}
+  .kpi .accent{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tt-blue-deep);}
+  .kpi.k-red .accent{background:var(--tt-red);}
+  .kpi.k-green .accent{background:var(--green);}
+
+  /* Hover ask-AI micro-interaction */
+  .ai-dot{display:none;}
+  .ai-tip{
+    position:absolute;top:10px;right:10px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+    opacity:0;transform:translateY(-4px);pointer-events:none;transition:.16s;z-index:6;
+  }
+  .kpi:hover .ai-tip,.cal-card:hover .ai-tip{opacity:1;transform:none;pointer-events:auto;}
+  .ai-tip .ask-mini{
+    display:inline-flex;align-items:center;gap:5px;background:var(--tt-red);color:#fff;font-size:11.5px;font-weight:800;
+    padding:5px 11px;border-radius:999px;cursor:pointer;box-shadow:0 4px 12px rgba(254,44,85,.35);white-space:nowrap;
+  }
+  .ai-tip .ask-mini:hover{background:#e01e46;}
+  .ai-tip .detail-mini{font-size:11px;font-weight:600;color:var(--txt-2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap;box-shadow:var(--shadow);}
+
+  /* Waterfall deductions */
+  .waterfall{display:flex;flex-direction:column;gap:2px;margin-top:6px;}
+  .wf-row{display:grid;grid-template-columns:230px 1fr 170px;align-items:center;gap:14px;padding:11px 6px;border-radius:9px;cursor:pointer;transition:.14s;position:relative;}
+  .wf-row:hover{background:var(--line-2);}
+  .wf-row .wf-name{font-weight:700;font-size:13px;}
+  .wf-row .wf-name small{display:block;font-weight:500;color:var(--txt-3);font-size:11px;margin-top:1px;line-height:1.35;}
+  .wf-bar-wrap{height:26px;background:var(--line-2);border-radius:7px;overflow:visible;position:relative;}
+  .wf-bar{height:100%;border-radius:7px;transition:width .8s cubic-bezier(.2,.8,.2,1);}
+  .wf-bar.total{background:linear-gradient(90deg,#2d5cff,#5b82ff);}
+  .wf-bar.deduct{background:linear-gradient(90deg,#fe2c55,#ff6b83);}
+  .wf-bar.pending{background:linear-gradient(90deg,#f79009,#fbbf5a);}
+  .wf-bar.final{background:linear-gradient(90deg,#12b76a,#3ed492);}
+  .wf-amt{text-align:right;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums;}
+  .wf-amt.neg{color:var(--tt-red);}
+  .wf-amt.pos{color:var(--green);}
+  .wf-formula{margin-top:14px;padding:12px 14px;background:var(--tt-ink);color:#c7c9d3;border-radius:10px;font-size:12px;font-family:ui-monospace,Menlo,monospace;line-height:1.7;}
+  .wf-formula b{color:var(--tt-blue);}
+
+  /* Fund lifecycle timeline */
+  .lifecycle{display:flex;gap:0;margin-top:8px;overflow-x:auto;padding-bottom:6px;}
+  .lc-step{flex:1;min-width:168px;position:relative;padding:0 8px;}
+  .lc-step .node{width:14px;height:14px;border-radius:50%;background:var(--tt-blue-deep);margin:0 auto 12px;position:relative;z-index:2;box-shadow:0 0 0 4px rgba(45,92,255,.14);}
+  .lc-step.res .node{background:var(--amber);box-shadow:0 0 0 4px rgba(247,144,9,.14);}
+  .lc-step.done .node{background:var(--green);box-shadow:0 0 0 4px rgba(18,183,106,.14);}
+  .lc-step::before{content:"";position:absolute;top:6px;left:-50%;width:100%;height:2px;background:var(--line);z-index:1;}
+  .lc-step:first-child::before{display:none;}
+  .lc-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:.15s;height:100%;}
+  .lc-card:hover{border-color:#dfe0e6;box-shadow:var(--shadow);}
+  .lc-card .lc-lab{font-size:12px;color:var(--txt-2);font-weight:600;}
+  .lc-card .lc-val{font-size:15px;font-weight:800;margin:5px 0 3px;}
+  .lc-card .lc-note{font-size:10.5px;color:var(--txt-3);line-height:1.4;}
+
+  /* Table */
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;}
+  .tbl th{text-align:left;font-size:11.5px;font-weight:700;color:var(--txt-3);padding:10px 12px;border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.3px;}
+  .tbl td{padding:12px;border-bottom:1px solid var(--line-2);vertical-align:middle;}
+  .tbl tr.click{cursor:pointer;transition:.13s;}
+  .tbl tr.click:hover{background:var(--line-2);}
+  .tbl .num{font-variant-numeric:tabular-nums;font-weight:700;text-align:right;}
+  .tbl .neg{color:var(--tt-red);}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600;}
+  .st{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+  .st .d{width:6px;height:6px;border-radius:50%;}
+  .st.ok{background:rgba(18,183,106,.12);color:var(--green);}.st.ok .d{background:var(--green);}
+  .st.ing{background:rgba(45,92,255,.1);color:var(--tt-blue-deep);}.st.ing .d{background:var(--tt-blue-deep);}
+  .st.acc{background:rgba(247,144,9,.12);color:var(--amber);}.st.acc .d{background:var(--amber);}
+  .st.frz{background:#eef0f4;color:var(--txt-2);}.st.frz .d{background:var(--txt-2);}
+  .st.fail{background:rgba(254,44,85,.1);color:var(--tt-red);}.st.fail .d{background:var(--tt-red);}
+  .st.warn{background:rgba(247,144,9,.12);color:var(--amber);margin-left:6px;}
+  .src-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
+  .src-video{background:rgba(254,44,85,.09);color:var(--tt-red);}
+  .src-live{background:rgba(45,92,255,.09);color:var(--tt-blue-deep);}
+  .src-mall{background:#eef0f4;color:var(--txt-2);}
+  .src-card{background:rgba(18,183,106,.1);color:var(--green);}
+
+  /* Discrepancy ledger */
+  .ledger{display:grid;gap:10px;}
+  .led-row{display:grid;grid-template-columns:1fr 150px 120px;gap:14px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:.14s;}
+  .led-row:hover{border-color:#dfe0e6;box-shadow:var(--shadow);}
+  .led-row .lt{font-weight:700;font-size:13px;}
+  .led-row .lt small{display:block;font-weight:500;color:var(--txt-2);font-size:11.5px;margin-top:2px;line-height:1.4;}
+  .led-row .la{text-align:right;font-weight:800;color:var(--tt-red);font-variant-numeric:tabular-nums;}
+
+  /* Data completeness */
+  .completeness{display:flex;align-items:center;gap:14px;padding:14px 16px;background:linear-gradient(90deg,rgba(45,92,255,.05),rgba(37,244,238,.04));border:1px solid rgba(45,92,255,.15);border-radius:12px;margin-bottom:18px;}
+  .completeness .ring{width:46px;height:46px;border-radius:50%;background:conic-gradient(var(--tt-blue-deep) 72%,#e6e8ef 0);display:grid;place-items:center;flex:none;}
+  .completeness .ring i{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:12px;color:var(--tt-blue-deep);}
+  .completeness .ct{font-size:12.5px;color:var(--txt-2);}
+  .completeness .ct b{color:var(--txt);}
+  .completeness .fix{margin-left:auto;background:var(--tt-ink);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+
+  /* Business health score */
+  .health{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;}
+  @media(max-width:900px){.health{grid-template-columns:1fr;}}
+  .health-score{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;flex:none;
+    background:conic-gradient(var(--green) 0 82%,#e6e8ef 82% 100%);}
+  .health-score i{width:92px;height:92px;border-radius:50%;background:#fff;display:grid;place-items:center;flex-direction:column;font-style:normal;text-align:center;line-height:1.1;}
+  .health-score .sc{font-size:30px;font-weight:800;color:var(--green);}
+  .health-score .sl{font-size:10.5px;color:var(--txt-3);font-weight:700;margin-top:2px;}
+  .health-items{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;}
+  @media(max-width:760px){.health-items{grid-template-columns:1fr;}}
+  .health-item{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line-2);gap:10px;}
+  .health-item .hl{color:var(--txt-2);font-weight:600;}
+  .health-item .hv{font-weight:800;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+  .health-item .tick{font-size:10px;font-weight:800;padding:1px 7px;border-radius:6px;}
+  .tick.good{background:rgba(18,183,106,.12);color:var(--green);}
+  .tick.mid{background:rgba(247,144,9,.12);color:var(--amber);}
+  .tick.bad{background:rgba(254,44,85,.1);color:var(--tt-red);}
+
+  /* Benchmark comparison bars */
+  .bench{margin-top:10px;}
+  .bench-track{position:relative;height:8px;border-radius:5px;background:var(--line-2);margin:10px 0 4px;}
+  .bench-fill{position:absolute;left:0;top:0;height:100%;border-radius:5px;background:var(--tt-blue-deep);}
+  .bench-fill.g{background:var(--green);}.bench-fill.r{background:var(--tt-red);}
+  .bench-mark{position:absolute;top:-4px;width:2px;height:16px;background:var(--txt);}
+  .bench-mark::after{content:attr(data-l);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9.5px;color:var(--txt-2);white-space:nowrap;font-weight:700;}
+  .bench-legend{display:flex;justify-content:space-between;font-size:11px;color:var(--txt-3);margin-top:2px;}
+
+  /* Profit dual-caliber */
+  .caliber-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+  @media(max-width:1180px){.caliber-2{grid-template-columns:1fr;}}
+  .cal-card{border:1px solid var(--line);border-radius:14px;padding:18px;position:relative;overflow:hidden;}
+  .cal-card.plat{background:linear-gradient(180deg,rgba(45,92,255,.05),#fff);}
+  .cal-card.real{background:linear-gradient(180deg,rgba(18,183,106,.06),#fff);}
+  .cal-card .tag{font-size:11px;font-weight:800;letter-spacing:.3px;}
+  .cal-card.plat .tag{color:var(--tt-blue-deep);}
+  .cal-card.real .tag{color:var(--green);}
+  .cal-card .big{font-size:28px;font-weight:800;margin:8px 0 2px;letter-spacing:-.6px;}
+  .cal-card .big .cur{font-size:15px;color:var(--txt-3);margin-right:4px;}
+  .cal-card .rate{font-size:12.5px;color:var(--txt-2);}
+  .cal-card .rate b{font-size:15px;}
+
+  /* Attribution bars */
+  .attr{display:grid;gap:12px;margin-top:6px;}
+  .attr-row{display:grid;grid-template-columns:150px 1fr 180px;align-items:center;gap:14px;cursor:pointer;padding:6px;border-radius:9px;transition:.13s;}
+  .attr-row:hover{background:var(--line-2);}
+  .attr-row .an{font-weight:700;font-size:13px;}
+  .attr-bar-wrap{height:22px;background:var(--line-2);border-radius:6px;overflow:hidden;}
+  .attr-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,#fe2c55,#ff6b83);transition:width .8s cubic-bezier(.2,.8,.2,1);}
+  .attr-bar.b{background:linear-gradient(90deg,#2d5cff,#5b82ff);}
+  .attr-bar.g{background:linear-gradient(90deg,#12b76a,#3ed492);}
+  .attr-val{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;}
+  .attr-val small{display:block;font-weight:500;color:var(--txt-3);font-size:11px;}
+
+  /* Export tool */
+  .export-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:1180px){.export-grid{grid-template-columns:1fr;}}
+  .exp-card{border:1px solid var(--line);border-radius:13px;padding:16px;cursor:pointer;transition:.15s;}
+  .exp-card:hover{border-color:var(--tt-blue-deep);box-shadow:var(--shadow);}
+  .exp-card h4{margin:0 0 4px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .exp-card p{margin:0;font-size:12px;color:var(--txt-2);}
+  .exp-card .meta{margin-top:10px;font-size:11px;color:var(--txt-3);display:flex;gap:12px;flex-wrap:wrap;}
+  .exp-btn{margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--line-2);border:none;padding:7px 13px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;color:var(--txt);}
+
+  .backend-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--tt-blue-deep);cursor:pointer;padding:4px 0;}
+  .backend-link:hover{text-decoration:underline;}
+
+  /* ============ Right docked AI ============ */
+  .ai{
+    width:var(--ai-w);flex:none;position:fixed;top:var(--top-h);bottom:0;right:0;z-index:45;
+    background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;
+  }
+  .ai-head{padding:15px 16px;border-bottom:1px solid var(--line);}
+  .ai-id{display:flex;align-items:center;gap:10px;}
+  .ai-id .av{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--tt-red),var(--tt-blue-deep));display:grid;place-items:center;color:#fff;font-weight:800;flex:none;}
+  .ai-id .nm{font-weight:800;font-size:14px;}
+  .ai-id .rl{font-size:11px;color:var(--txt-3);}
+  .ai-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  .msg{max-width:88%;padding:11px 13px;border-radius:13px;font-size:12.5px;line-height:1.6;}
+  .msg.bot{background:var(--line-2);border-bottom-left-radius:4px;align-self:flex-start;}
+  .msg.me{background:var(--tt-ink);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+  .msg.bot b{color:var(--tt-blue-deep);}
+  .ai-sugs{display:flex;flex-direction:column;gap:7px;margin-top:2px;}
+  .ai-sug{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:600;color:var(--txt-2);cursor:pointer;transition:.14s;}
+  .ai-sug:hover{border-color:var(--tt-red);color:var(--tt-red);}
+  .ai-input{padding:12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end;}
+  .ai-input textarea{flex:1;border:1px solid var(--line);border-radius:11px;padding:9px 11px;font-size:12.5px;resize:none;font-family:inherit;height:40px;max-height:100px;outline:none;}
+  .ai-input textarea:focus{border-color:var(--tt-ink);}
+  .ai-input .send{width:40px;height:40px;flex:none;border:none;border-radius:11px;background:var(--tt-red);color:#fff;font-size:16px;cursor:pointer;display:grid;place-items:center;}
+
+  /* Drawer: data detail */
+  .drawer-mask{position:fixed;inset:0;background:rgba(11,11,15,.42);z-index:80;opacity:0;pointer-events:none;transition:.22s;}
+  .drawer-mask.show{opacity:1;pointer-events:auto;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:540px;max-width:92vw;background:#fff;z-index:81;box-shadow:var(--shadow-lg);transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;}
+  .drawer.show{transform:none;}
+  .drawer-h{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .drawer-h h3{margin:0;font-size:17px;font-weight:800;}
+  .drawer-h .sub{font-size:12px;color:var(--txt-2);margin-top:3px;}
+  .drawer-h .x{border:none;background:var(--line-2);width:32px;height:32px;border-radius:9px;font-size:16px;cursor:pointer;flex:none;}
+  .drawer-b{flex:1;overflow-y:auto;padding:20px;}
+  .det-line{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line-2);gap:12px;}
+  .det-line .dl-l{font-size:13px;}
+  .det-line .dl-l small{display:block;color:var(--txt-3);font-size:11px;margin-top:2px;}
+  .det-line .dl-v{font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;}
+  .det-line .dl-v.neg{color:var(--tt-red);}
+  .drawer-foot{padding:16px 20px;border-top:1px solid var(--line);display:flex;gap:10px;}
+  .drawer-foot button{padding:12px;border-radius:11px;font-weight:800;font-size:13px;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;}
+  .drawer-foot .ask{flex:1.4;background:var(--tt-red);color:#fff;box-shadow:0 6px 16px rgba(254,44,85,.3);}
+  .drawer-foot .ask:hover{background:#e01e46;}
+  .drawer-foot .goto{flex:1;background:#fff;border:1px solid var(--tt-blue-deep);color:var(--tt-blue-deep);}
+  .drawer-foot .goto:hover{background:rgba(45,92,255,.06);}
+
+  .hint{font-size:11.5px;color:var(--txt-3);margin-top:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+
+  @media(max-width:1080px){
+    :root{--ai-w:0px;}
+    .ai{display:none;}
+    .content{margin-right:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ Topbar ============ -->
+<header class="topbar">
+  <div class="brand">
+    <span class="logo"></span>
+    <span>Settlement &amp; Cash Center <span class="sub">TikTok Shop Seller Center</span></span>
+  </div>
+  <div class="divider"></div>
+  <span class="badge-id"><span class="dot"></span>Indonesia only · ID</span>
+  <div class="fx">
+    <span class="fx-tag">FX</span>
+    <span>1 USD &asymp; <b>16,320</b> IDR</span>
+    <span class="fx-tag">Posting-date mid rate · 2026/08/25</span>
+  </div>
+  <div class="top-spacer"></div>
+  <span class="range-label">Period <b id="rangeText">2026/08/14 – 2026/08/21</b></span>
+  <div class="timepick" id="timepick">
+    <button data-r="This period" class="active" onclick="pickTime(this,'This period','2026/08/14 – 2026/08/21')">This period</button>
+    <button data-r="Last 7 days" onclick="pickTime(this,'Last 7 days','2026/08/19 – 2026/08/25')">Last 7 days</button>
+    <button data-r="Last 30 days" onclick="pickTime(this,'Last 30 days','2026/07/27 – 2026/08/25')">Last 30 days</button>
+    <button data-r="Custom" onclick="pickTime(this,'Custom','Click to pick a date range…')">Custom</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ Left navigation ============ -->
+  <aside class="sidebar">
+    <div class="nav-shop">
+      <div class="avatar">R</div>
+      <div>
+        <div class="n">Rumah Rapi Studio</div>
+        <div class="r">Indonesia · ID · Home Storage</div>
+      </div>
+    </div>
+
+    <div class="nav-group p1">
+      <div class="g-title"><span class="k">01</span>Billing &amp; Cash</div>
+      <div class="nav-item indent active" data-page="p-settle" onclick="go(this,'p-settle')"><span class="ic">🧾</span>Statements &amp; Bills</div>
+      <div class="nav-item indent" data-page="p-cash" onclick="go(this,'p-cash')"><span class="ic">💧</span>Cash Flow &amp; Payout</div>
+      <div class="nav-item indent" data-page="p-diff" onclick="go(this,'p-diff')"><span class="ic">⚖️</span>Discrepancy Ledger</div>
+    </div>
+
+    <div class="nav-group p2">
+      <div class="g-title"><span class="k">02</span>Business Diagnostics</div>
+      <div class="nav-item indent" data-page="p-profit" onclick="go(this,'p-profit')"><span class="ic">📈</span>Profit Diagnosis</div>
+      <div class="nav-item indent" data-page="p-attr" onclick="go(this,'p-attr')"><span class="ic">🎯</span>Business Attribution</div>
+    </div>
+
+    <div class="nav-group p3 nav-tool">
+      <div class="g-title"><span class="k">03</span>Bill Export</div>
+      <div class="nav-item indent" data-page="p-export" onclick="go(this,'p-export')"><span class="ic">📤</span>Bill Export</div>
+    </div>
+  </aside>
+
+  <!-- ============ Middle content ============ -->
+  <main class="content" id="content">
+    <!-- pages injected below -->
+  </main>
+
+  <!-- ============ Right docked AI ============ -->
+  <aside class="ai">
+    <div class="ai-head">
+      <div class="ai-id">
+        <div class="av">R</div>
+        <div>
+          <div class="nm">Rami</div>
+          <div class="rl" id="aiRole">Your billing &amp; business assistant · all data from your store</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-body" id="aiBody">
+      <div class="msg bot">I'm <b>Rami</b>. This page makes every settlement clear: why a payout is lower than expected, where the gap comes from, and when the money arrives. Click any metric to ask me directly.</div>
+      <div class="ai-sugs" id="aiSugs"></div>
+    </div>
+    <div class="ai-input">
+      <textarea id="aiInput" placeholder="Type your question…"></textarea>
+      <button class="send" onclick="sendAI()">↑</button>
+    </div>
+  </aside>
+</div>
+
+<!-- ============ Detail drawer ============ -->
+<div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-h">
+    <div>
+      <h3 id="drawerTitle">Data detail</h3>
+      <div class="sub" id="drawerSub"></div>
+    </div>
+    <button class="x" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-b" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <button class="ask" onclick="askFromDrawer()">✦ Ask Rami about this</button>
+    <button class="goto" onclick="gotoBackend()">↗ Open TTS Backend</button>
+  </div>
+</aside>
+
+<script>
+/* ============================================================
+   Settlement & Cash Center · TikTok Shop Indonesia · Seller Billing & Business Analytics prototype
+   All data from demo store Rumah Rapi Studio · ID, period 2026/08/14–2026/08/21
+   ============================================================ */
+
+/* -------- Hover ask-AI bubble component -------- */
+function aiWrap(question){
+  const q = question.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  return `<div class="ai-tip">
+      <span class="ask-mini" onclick="askAI('${q}');event.stopPropagation();">✦ Ask Rami</span>
+      <span class="detail-mini">Click to view bill detail</span>
+    </div>`;
+}
+
+/* -------- Page templates -------- */
+const PAGES = {
+
+/* ========== P1-1 Statements & Bills ========== */
+'p-settle': `
+<div class="page-head">
+  <span class="caliber-tag plat">● Platform caliber · settlement data, authoritative</span>
+  <h1>Statements &amp; Bills</h1>
+  <p>Transaction and fund data comes from platform settlement, aggregated around the Statement. First read the net settlement amount for the period, then unpack layer by layer why sales revenue and the payout amount differ.</p>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi k-blue" onclick="openDetail('net')">
+    <span class="accent"></span>
+    <div class="lab">Net Settlement (this period) ${aiWrap('How is the net settlement amount for this period calculated?')}</div>
+    <div class="val"><span class="cur">Rp</span>1,402,180,000</div>
+    <div class="sub">From 6,976 completed orders · settlement caliber</div>
+    ${'' }
+  </div>
+  <div class="kpi" onclick="openDetail('gmv')">
+    <span class="accent"></span>
+    <div class="lab">Product Sales GMV ${aiWrap('Why did GMV rise 12.4% versus the last period?')}</div>
+    <div class="val"><span class="cur">Rp</span>1,842,600,000</div>
+    <div class="sub"><span class="chip up">▲ 12.4%</span> vs last period</div>
+  </div>
+  <div class="kpi k-red" onclick="openDetail('fee')">
+    <span class="accent"></span>
+    <div class="lab">Platform Fees ${aiWrap('What are the 3 components of platform fees?')}</div>
+    <div class="val" style="color:var(--tt-red)">−<span class="cur">Rp</span>395,570,000</div>
+    <div class="sub">Commission · transaction fee · shipping</div>
+  </div>
+  <div class="kpi k-red" onclick="openDetail('refund')">
+    <span class="accent"></span>
+    <div class="lab">Returns &amp; Refunds ${aiWrap('Is the 5.47% refund rate high versus the category average?')}</div>
+    <div class="val" style="color:var(--tt-red)">−<span class="cur">Rp</span>44,850,000</div>
+    <div class="sub">382 orders · refund rate 5.47%</div>
+  </div>
+  <div class="kpi" onclick="openDetail('reserve')">
+    <span class="accent"></span>
+    <div class="lab">Settlement Reserve ${aiWrap('Why is there a 45,240,000 reserve not yet paid out this period?')}</div>
+    <div class="val"><span class="cur">Rp</span>45,240,000</div>
+    <div class="sub">Accrued dynamically by refund rate · released after the window</div>
+  </div>
+</div>
+
+<div class="section-title">Layer-by-layer deductions from sales to actual payout</div>
+<div class="card"><div class="card-b">
+  <div class="waterfall">
+    <div class="wf-row" onclick="openDetail('gmv')">
+      <div class="wf-name">Product Sales GMV</div>
+      <div class="wf-bar-wrap"><div class="wf-bar total" style="width:100%"></div></div>
+      <div class="wf-amt pos">Rp 1,842,600,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('fee-comm')">
+      <div class="wf-name">Platform Commission<small>Category base commission + affiliate creator share</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:5%"></div></div>
+      <div class="wf-amt neg">−Rp 92,130,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('fee-trans')">
+      <div class="wf-name">Transaction Fees<small>Payment channel fee + platform service fee</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:13%"></div></div>
+      <div class="wf-amt neg">−Rp 238,950,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('fee-ship')">
+      <div class="wf-name">Shipping &amp; Shipping Adjustment<small>Platform carriage + actual-weight surcharge</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:3.5%"></div></div>
+      <div class="wf-amt neg">−Rp 64,490,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('refund')">
+      <div class="wf-name">Returns &amp; Refunds<small>Transaction reversal · not a platform fee</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:2.4%"></div></div>
+      <div class="wf-amt neg">−Rp 44,850,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('pending')">
+      <div class="wf-name">In-transit / Pending<small>Orders not yet settled within the payout window</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar pending" style="width:26%"></div></div>
+      <div class="wf-amt neg">−Rp 486,320,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('reserve')">
+      <div class="wf-name">Settlement Reserve<small>Accrued dynamically by refund rate · released after the window</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar pending" style="width:2.4%"></div></div>
+      <div class="wf-amt neg">−Rp 45,240,000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('arrived')">
+      <div class="wf-name" style="color:var(--green)">Actual Payout (this period)</div>
+      <div class="wf-bar-wrap"><div class="wf-bar final" style="width:73.6%"></div></div>
+      <div class="wf-amt pos">Rp 1,356,940,000</div>
+    </div>
+  </div>
+  <div class="wf-formula">GMV − Commission − Transaction Fees − Shipping − Refunds − In-transit − Reserve = <b>Actual Payout</b></div>
+</div></div>
+
+<div class="section-title">Statements
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ Go to Statement backend</span>
+</div>
+<div class="card"><div class="card-b" style="padding-top:6px">
+  <table class="tbl">
+    <thead><tr><th>Statement No.</th><th>Orders</th><th style="text-align:right">Settlement</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr class="click" onclick="openStatement('STM-20260819-004')"><td class="mono">STM-20260819-004</td><td>2,184</td><td class="num">Rp 335,400,000</td><td><span class="st ok"><span class="d"></span>Paid out</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260816-003')"><td class="mono">STM-20260816-003</td><td>2,007</td><td class="num">Rp 316,770,000</td><td><span class="st ok"><span class="d"></span>Paid out</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260819-005')"><td class="mono">STM-20260819-005</td><td>1,462</td><td class="num">Rp 224,762,000</td><td><span class="st ing"><span class="d"></span>Processing</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260820-006')"><td class="mono">STM-20260820-006</td><td>1,043</td><td class="num">Rp 161,048,000</td><td><span class="st acc"><span class="d"></span>Period accounting</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260818-007')"><td class="mono">STM-20260818-007</td><td>312</td><td class="num">Rp 48,298,000</td><td><span class="st frz"><span class="d"></span>Frozen</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260814-008')"><td class="mono">STM-20260814-008</td><td>221</td><td class="num">Rp 34,112,000</td><td><span class="st fail"><span class="d"></span>Payout failed</span></td></tr>
+    </tbody>
+  </table>
+</div></div>
+
+<div class="section-title">Transaction Bills
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ Go to transaction detail backend</span>
+</div>
+<div class="card"><div class="card-b" style="padding-top:6px">
+  <table class="tbl">
+    <thead><tr><th>Order No.</th><th>Product</th><th style="text-align:right">Received</th><th style="text-align:right">Fees</th><th style="text-align:right">Settlement</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr class="click" onclick="openOrder('IDN2608A2K9')"><td class="mono">IDN2608A2K9</td><td>Desk Organizer · Off-white M ×2</td><td class="num">Rp 298,000</td><td class="num neg">−Rp 59,680</td><td class="num">Rp 238,320</td><td><span class="st ok"><span class="d"></span>Paid out</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608B7T3')"><td class="mono">IDN2608B7T3</td><td>Foldable Hanging Organizer · 6-cell ×1</td><td class="num">Rp 189,000</td><td class="num neg">−Rp 39,240</td><td class="num">Rp 149,760</td><td><span class="st ok"><span class="d"></span>Paid out</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608C5P1')"><td class="mono">IDN2608C5P1</td><td>Drawer Dividers · 4-piece set ×3</td><td class="num">Rp 435,000</td><td class="num neg">−Rp 96,000</td><td class="num">Rp 339,000</td><td><span class="st ing"><span class="d"></span>Processing</span><span class="st warn">Discrepancy</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608D9M4')"><td class="mono">IDN2608D9M4</td><td>Desk Organizer · Dark-gray L ×1</td><td class="num">Rp 168,000</td><td class="num neg">−Rp 35,880</td><td class="num">Rp 132,120</td><td><span class="st acc"><span class="d"></span>Period accounting</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608E1R7')"><td class="mono">IDN2608E1R7</td><td>Fabric Storage Basket · Large ×1</td><td class="num">Rp 0</td><td class="num neg">−Rp 52,000</td><td class="num neg">−Rp 52,000</td><td><span class="st frz"><span class="d"></span>Frozen</span><span class="st warn">Discrepancy</span></td></tr>
+    </tbody>
+  </table>
+  <div class="hint">✅ All 6,976 orders this period have been reconciled line by line; 3 discrepancy types filed in the Discrepancy Ledger. If you question any deduction, click the order to ask Rami.</div>
+</div></div>
+`,
+
+/* ========== P1-2 Cash Flow & Payout ========== */
+'p-cash': `
+<div class="page-head">
+  <span class="caliber-tag plat">● Platform caliber · settlement data, authoritative</span>
+  <h1>Cash Flow &amp; Payout</h1>
+  <p>Cash flow is the "status dimension" of money — it shows every state a payment passes through, from buyer checkout to landing in your bank account, so you know when you can actually collect the cash.</p>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi k-green" onclick="openDetail('withdrawable')">
+    <span class="accent"></span>
+    <div class="lab">Withdrawable Balance ${aiWrap('Which statements make up the 412,180,000 available to withdraw now?')}</div>
+    <div class="val" style="color:var(--green)"><span class="cur">Rp</span>412,180,000</div>
+    <div class="sub">Reserve released · ready to withdraw</div>
+  </div>
+  <div class="kpi" onclick="openDetail('pending')">
+    <span class="accent"></span>
+    <div class="lab">Pending / In-transit ${aiWrap('When is the 486,320,000 in-transit balance expected to be paid out?')}</div>
+    <div class="val"><span class="cur">Rp</span>486,320,000</div>
+    <div class="sub">Within payout window · not yet settled</div>
+  </div>
+  <div class="kpi" onclick="openDetail('reserve')">
+    <span class="accent"></span>
+    <div class="lab">Settlement Reserve ${aiWrap('What ratio is the settlement reserve accrued at?')}</div>
+    <div class="val"><span class="cur">Rp</span>45,240,000</div>
+    <div class="sub">Accrued by refund rate · released after window</div>
+  </div>
+  <div class="kpi" onclick="openDetail('arrived')">
+    <span class="accent"></span>
+    <div class="lab">Amount Paid Out ${aiWrap('Where does the amount paid out differ from net settlement?')}</div>
+    <div class="val"><span class="cur">Rp</span>1,356,940,000</div>
+    <div class="sub">Landed in linked bank account</div>
+  </div>
+</div>
+
+<div class="section-title">Fund lifecycle</div>
+<div class="card"><div class="card-b">
+  <div class="lifecycle">
+    <div class="lc-step" onclick="openDetail('paid')"><div class="node"></div><div class="lc-card"><div class="lc-lab">Order Payment</div><div class="lc-val">Rp 1,842,600,000</div><div class="lc-note">Buyer has paid &amp; ordered</div></div></div>
+    <div class="lc-step" onclick="openDetail('confirmed')"><div class="node"></div><div class="lc-card"><div class="lc-lab">Confirmed Revenue</div><div class="lc-val">Rp 1,402,180,000</div><div class="lc-note">Delivery confirmed · fees &amp; refunds deducted</div></div></div>
+    <div class="lc-step" onclick="openDetail('pending')"><div class="node"></div><div class="lc-card"><div class="lc-lab">Pending / In-transit</div><div class="lc-val">Rp 486,320,000</div><div class="lc-note">Within window · not yet settled</div></div></div>
+    <div class="lc-step res" onclick="openDetail('reserve')"><div class="node"></div><div class="lc-card"><div class="lc-lab">Settlement Reserve</div><div class="lc-val">Rp 45,240,000</div><div class="lc-note">Accrued by refund rate · released after window</div></div></div>
+    <div class="lc-step done" onclick="openDetail('withdrawable')"><div class="node"></div><div class="lc-card"><div class="lc-lab">Withdrawable Balance</div><div class="lc-val">Rp 412,180,000</div><div class="lc-note">Reserve released · ready to withdraw</div></div></div>
+    <div class="lc-step done" onclick="openDetail('arrived')"><div class="node"></div><div class="lc-card"><div class="lc-lab">Amount Paid Out</div><div class="lc-val">Rp 1,356,940,000</div><div class="lc-note">Landed in linked bank account</div></div></div>
+  </div>
+</div></div>
+
+<div class="section-title">Payout terms &amp; cadence</div>
+<div class="card"><div class="card-b">
+  <table class="tbl">
+    <thead><tr><th>Settlement rule</th><th>Indonesia config</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Settlement cycle</td><td><b>T + 7 days</b> (after delivery confirmed)</td><td style="color:var(--txt-2)">Affiliate orders add +2 days for accounting</td></tr>
+      <tr><td>Settlement currency</td><td><b>IDR (Rupiah, Rp)</b></td><td style="color:var(--txt-2)">Thousands separated by ",", no decimals</td></tr>
+      <tr><td>Withdrawal method</td><td><b>Local bank card · e-wallet</b></td><td style="color:var(--txt-2)">Supports BCA / Mandiri / DANA / OVO</td></tr>
+      <tr><td>Reserve ratio</td><td><b>Accrued dynamically by category refund rate</b></td><td style="color:var(--txt-2)">Home category currently ≈ 3.2% of settlement</td></tr>
+    </tbody>
+  </table>
+  <div class="hint">🌏 This table is the "Indonesia regional config"; the same settlement model adapts to other sites by swapping config (tax, payout terms, withdrawal methods switch by region).</div>
+</div></div>
+`,
+
+/* ========== P1-3 Discrepancy Ledger ========== */
+'p-diff': `
+<div class="page-head">
+  <span class="caliber-tag plat">● Platform caliber · settlement data, authoritative</span>
+  <h1>Discrepancy Ledger</h1>
+  <p>The system automatically collects deductions that differ from expectation, traceable line by line. Every discrepancy can be traced to a specific order and its ruling basis — no more "money is short but I don't know why".</p>
+</div>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+  <div class="kpi k-red"><span class="accent"></span><div class="lab">Total Discrepancy (this period) ${aiWrap('How much did the 3 discrepancy types deduct in total this period?')}</div><div class="val" style="color:var(--tt-red)">−<span class="cur">Rp</span>5,242,000</div><div class="sub">0.37% of net settlement</div></div>
+  <div class="kpi"><span class="accent"></span><div class="lab">Pending Confirmation</div><div class="val"><span class="cur">Rp</span>1,284,000</div><div class="sub">1 type · appeal available</div></div>
+  <div class="kpi"><span class="accent"></span><div class="lab">Deducted</div><div class="val"><span class="cur">Rp</span>3,116,000</div><div class="sub">1 type · deduction completed</div></div>
+</div>
+
+<div class="section-title">Discrepancy detail <span class="desc">Click any row to view the collection logic and linked orders.</span>
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ Go to discrepancy appeal backend</span>
+</div>
+<div class="card"><div class="card-b">
+  <div class="ledger">
+    <div class="led-row" onclick="openDetail('diff-ship')">
+      <div class="lt">Shipping surcharge<small>32 orders re-billed by actual weight, differing from the checkout estimate.</small></div>
+      <div class="la">−Rp 1,284,000</div>
+      <div><span class="st acc"><span class="d"></span>Pending</span></div>
+    </div>
+    <div class="led-row" onclick="openDetail('diff-return')">
+      <div class="lt">After-sales return liability<small>9 orders ruled seller-liable; shipping and goods cost borne by this store.</small></div>
+      <div class="la">−Rp 3,116,000</div>
+      <div><span class="st frz"><span class="d"></span>Deducted</span></div>
+    </div>
+    <div class="led-row" onclick="openDetail('diff-fx')">
+      <div class="lt">FX conversion difference<small>Cross-border settlement converted at posting-date rate, differing from the order date.</small></div>
+      <div class="la">−Rp 842,000</div>
+      <div><span class="st ing"><span class="d"></span>Automatic</span></div>
+    </div>
+  </div>
+  <div class="hint">💡 If you question any discrepancy, click "Ask Rami" or file an appeal — the system attaches the linked orders and a ruling snapshot.</div>
+</div></div>
+`,
+
+/* ========== P2-1 Profit Diagnosis ========== */
+'p-profit': `
+<div class="page-head">
+  <span class="caliber-tag biz">● Business caliber · includes seller-input costs, for decisions</span>
+  <h1>Profit Diagnosis</h1>
+  <p>The platform only settles "goods payment" — it does not know your procurement cost or ad spend. Only after adding those two can you go from "settlement profit" to the "net profit" you actually pocket.</p>
+</div>
+
+<div class="completeness">
+  <div class="ring"><i>72%</i></div>
+  <div class="ct">Data completeness <b>72%</b>: platform transaction and fee data is 100% connected; <b>product cost</b> is 68% filled, <b>ad spend</b> is auto-connected. Filling the rest makes profit diagnosis more accurate.</div>
+  <button class="fix" onclick="openDetail('completeness')">Complete costs →</button>
+</div>
+
+<div class="caliber-2">
+  <div class="cal-card plat" onclick="openDetail('profit-plat')">
+    <div class="tag">Platform caliber · Settlement Profit</div>
+    <div class="big"><span class="cur">Rp</span>1,402,180,000</div>
+    <div class="rate">= net settlement · only platform fees &amp; refunds deducted, <b>excludes</b> procurement cost &amp; ad spend</div>
+  </div>
+  <div class="cal-card real" onclick="openDetail('profit-real')">
+    <div class="tag">Business caliber · True Net Profit ${aiWrap('Why is true net profit only about a fifth of the settlement amount?')}</div>
+    <div class="big" style="color:var(--green)"><span class="cur">Rp</span>318,000,000</div>
+    <div class="rate">True net margin <b>17.3%</b> · target range 15%–20% <span class="chip flat" style="margin-left:6px">On target</span></div>
+  </div>
+</div>
+
+<div class="section-title">From settlement amount to net profit</div>
+<div class="card"><div class="card-b">
+  <div class="waterfall">
+    <div class="wf-row" onclick="openDetail('profit-plat')"><div class="wf-name">Platform Net Settlement</div><div class="wf-bar-wrap"><div class="wf-bar total" style="width:100%"></div></div><div class="wf-amt pos">Rp 1,402,180,000</div></div>
+    <div class="wf-row" onclick="openDetail('cogs')"><div class="wf-name">Product Cost (COGS)<small>Seller-input · 68% filled (rest imputed at category average)</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:62%"></div></div><div class="wf-amt neg">−Rp 868,000,000</div></div>
+    <div class="wf-row" onclick="openDetail('adcost')"><div class="wf-name">Ad Spend<small>Platform campaign data · auto-connected</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:5.9%"></div></div><div class="wf-amt neg">−Rp 82,900,000</div></div>
+    <div class="wf-row" onclick="openDetail('creator-cost')"><div class="wf-name">Creator Commission<small>Includes platform commission · affiliate settlement</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:4.2%"></div></div><div class="wf-amt neg">−Rp 58,400,000</div></div>
+    <div class="wf-row" onclick="openDetail('opcost')"><div class="wf-name">Other Operating Cost<small>Packaging · warehousing · customer service, etc.</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:5.3%"></div></div><div class="wf-amt neg">−Rp 74,880,000</div></div>
+    <div class="wf-row" onclick="openDetail('profit-real')"><div class="wf-name" style="color:var(--green)">True Net Profit</div><div class="wf-bar-wrap"><div class="wf-bar final" style="width:22.7%"></div></div><div class="wf-amt pos">Rp 318,000,000</div></div>
+  </div>
+  <div class="wf-formula">Net Settlement − Product Cost − Ad Spend − Creator Commission − Other Operating Cost = <b>True Net Profit</b> (margin 17.3%)</div>
+</div></div>
+
+<div class="section-title">Business health score</div>
+<div class="card"><div class="card-b">
+  <div class="health">
+    <div class="health-score"><i><span class="sc">82</span><span class="sl">Healthy · Good</span></i></div>
+    <div class="health-items">
+      <div class="health-item"><span class="hl">True net margin 17.3%</span><span class="hv">On target <span class="tick good">Great</span></span></div>
+      <div class="health-item"><span class="hl">Return &amp; refund rate 5.47%</span><span class="hv">Beats average <span class="tick good">Great</span></span></div>
+      <div class="health-item"><span class="hl">Ad ROI 6.4</span><span class="hv">Above peers <span class="tick good">Great</span></span></div>
+      <div class="health-item"><span class="hl">Data completeness 72%</span><span class="hv">To complete <span class="tick mid">Fair</span></span></div>
+      <div class="health-item"><span class="hl">Cash cycle T+7</span><span class="hv">Normal <span class="tick good">Great</span></span></div>
+      <div class="health-item"><span class="hl">Discrepancy share 0.37%</span><span class="hv">Controlled <span class="tick good">Great</span></span></div>
+    </div>
+  </div>
+  <div class="hint">💡 The health score is a weighted calculation across profit, turnover, risk, and compliance. Completing product cost can raise it further. ${aiWrap('Which item is dragging down the health score of 82?')}Click to view the basis of each score.</div>
+</div></div>
+
+<div class="section-title">Key business metrics · benchmark lines</div>
+<div class="card"><div class="card-b">
+  <div class="bench">
+    <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span>Return &amp; refund rate</span><span>Store <b style="color:var(--green)">5.47%</b> · category benchmark 5.9%</span></div>
+    <div class="bench-track"><div class="bench-fill g" style="width:46.4%"></div><div class="bench-mark" data-l="Benchmark 5.9%" style="left:50%"></div></div>
+    <div class="bench-legend"><span>0%</span><span>Lower is better · store beats benchmark</span><span>11.8%</span></div>
+  </div>
+  <div class="bench" style="margin-top:22px">
+    <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span>Ad ROI</span><span>Store <b style="color:var(--green)">6.4</b> · peer benchmark 4.8</span></div>
+    <div class="bench-track"><div class="bench-fill g" style="width:64%"></div><div class="bench-mark" data-l="Benchmark 4.8" style="left:48%"></div></div>
+    <div class="bench-legend"><span>0</span><span>Higher is better · store above peers</span><span>10</span></div>
+  </div>
+  <div class="hint">📊 Benchmarks are the 30-day median for the Indonesia home category. Lower return rate is better, higher ROI is better — the store beats peers on both. ${aiWrap('Why does the store lead peers on return rate and ROI?')}</div>
+</div></div>
+
+<div class="section-title">Key business metrics</div>
+<div class="kpi-grid">
+  <div class="kpi" onclick="openDetail('aov')"><span class="accent"></span><div class="lab">Average Order Value ${aiWrap('What drove the 3.1% rise in AOV vs last period?')}</div><div class="val"><span class="cur">Rp</span>264,140</div><div class="sub"><span class="chip up">▲ 3.1%</span> vs last period</div></div>
+  <div class="kpi" onclick="openDetail('refund')"><span class="accent"></span><div class="lab">Return &amp; refund rate ${aiWrap('How does the return rate compare with the category average?')}</div><div class="val">5.47%</div><div class="sub"><span class="chip flat">Flat</span> category avg 5.9%</div></div>
+  <div class="kpi k-green" onclick="openDetail('roi')"><span class="accent"></span><div class="lab">Ad ROI ${aiWrap('Is an Ad ROI of 6.4 high within the category?')}</div><div class="val" style="color:var(--green)">6.4</div><div class="sub">Ad spend 4.5% of GMV</div></div>
+  <div class="kpi" onclick="openDetail('content')"><span class="accent"></span><div class="lab">Content GMV share ${aiWrap('What does a 68.2% content GMV share indicate?')}</div><div class="val">68.2%</div><div class="sub">Driven by short video + live</div></div>
+</div>
+`,
+
+/* ========== P2-2 Business Attribution ========== */
+'p-attr': `
+<div class="page-head">
+  <span class="caliber-tag biz">● Business caliber · includes seller-input costs, for decisions</span>
+  <h1>Business Attribution</h1>
+  <p>Who actually earned the money, and who diluted it? Break down this period's GMV and profit contribution across three dimensions — channel / creator / category — to decide where to invest more or cut losses next.</p>
+</div>
+
+<div class="section-title">Channel contribution <span class="desc">GMV split by content vs shelf.</span></div>
+<div class="card"><div class="card-b">
+  <div class="attr">
+    <div class="attr-row" onclick="openDetail('ch-video')"><div class="an">Short video</div><div class="attr-bar-wrap"><div class="attr-bar" style="width:41%"></div></div><div class="attr-val">Rp 755,000,000<small>share 41.0%</small></div></div>
+    <div class="attr-row" onclick="openDetail('ch-live')"><div class="an">Live</div><div class="attr-bar-wrap"><div class="attr-bar b" style="width:27.2%"></div></div><div class="attr-val">Rp 501,000,000<small>share 27.2%</small></div></div>
+    <div class="attr-row" onclick="openDetail('ch-mall')"><div class="an">Mall shelf</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:23.8%"></div></div><div class="attr-val">Rp 438,600,000<small>share 23.8%</small></div></div>
+    <div class="attr-row" onclick="openDetail('ch-card')"><div class="an">Product card</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:8%"></div></div><div class="attr-val">Rp 148,000,000<small>share 8.0%</small></div></div>
+  </div>
+  <div class="hint">💡 Content (short video + live) totals <b>68.2%</b> — the main growth engine this period; shelf has higher margin, so use it to absorb content-channel spillover traffic.</div>
+</div></div>
+
+<div class="section-title">Creator contribution <span class="desc">GMV and commission cost split by partnered creator; click for ROI.</span>
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ Go to creator collaboration backend</span>
+</div>
+<div class="card"><div class="card-b" style="padding-top:6px">
+  <table class="tbl">
+    <thead><tr><th>Creator</th><th style="text-align:right">Driven GMV</th><th style="text-align:right">Commission</th><th style="text-align:right">Comm. rate</th><th style="text-align:right">Driven ROI</th></tr></thead>
+    <tbody>
+      <tr class="click" onclick="openDetail('cr-rumahrapi')"><td>@rumahrapi<br><small style="color:var(--txt-3)">Brand self-broadcast · short video</small></td><td class="num">Rp 486,000,000</td><td class="num neg">−Rp 19,400,000</td><td class="num">4.0%</td><td class="num" style="color:var(--green)">25.1</td></tr>
+      <tr class="click" onclick="openDetail('cr-beautyzone')"><td>@beautyzone<br><small style="color:var(--txt-3)">Top creator · live</small></td><td class="num">Rp 312,000,000</td><td class="num neg">−Rp 24,960,000</td><td class="num">8.0%</td><td class="num" style="color:var(--green)">12.5</td></tr>
+      <tr class="click" onclick="openDetail('cr-gayahidup')"><td>@gayahidup<br><small style="color:var(--txt-3)">Mid-tier creator · live</small></td><td class="num">Rp 158,000,000</td><td class="num neg">−Rp 14,040,000</td><td class="num">8.9%</td><td class="num" style="color:var(--amber)">6.2</td></tr>
+    </tbody>
+  </table>
+  <div class="hint">⚠️ @gayahidup has the highest commission rate but the lowest ROI — review product-fit; @rumahrapi self-broadcast has the best ROI and deserves more support.</div>
+</div></div>
+
+<div class="section-title">Category contribution <span class="desc">Margin split by product category.</span></div>
+<div class="card"><div class="card-b">
+  <div class="attr">
+    <div class="attr-row" onclick="openDetail('cat-box')"><div class="an">Desk storage</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:100%"></div></div><div class="attr-val" style="color:var(--green)">Margin 21.4%<small>GMV Rp 682,000,000</small></div></div>
+    <div class="attr-row" onclick="openDetail('cat-hang')"><div class="an">Apparel storage</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:84%"></div></div><div class="attr-val" style="color:var(--green)">Margin 18.0%<small>GMV Rp 524,000,000</small></div></div>
+    <div class="attr-row" onclick="openDetail('cat-basket')"><div class="an">Fabric storage</div><div class="attr-bar-wrap"><div class="attr-bar" style="width:52%"></div></div><div class="attr-val" style="color:var(--tt-red)">Margin 11.1%<small>GMV Rp 396,600,000</small></div></div>
+    <div class="attr-row" onclick="openDetail('cat-other')"><div class="an">Other</div><div class="attr-bar-wrap"><div class="attr-bar" style="width:60%"></div></div><div class="attr-val">Margin 12.8%<small>GMV Rp 240,000,000</small></div></div>
+  </div>
+  <div class="hint">💡 Desk storage is the profit anchor (21.4%); fabric storage has a high return rate that drags margin down — improve product detail pages and sizing notes.</div>
+</div></div>
+`,
+
+/* ========== Tool · Bill Export ========== */
+'p-export': `
+<div class="page-head">
+  <h1>Bill Export</h1>
+  <p>As a standalone tool, export statements, transaction details, the discrepancy ledger, and profit reports on demand. Choose the time window and field caliber; exports carry reconciliation links, ready for accounting and tax filing.</p>
+</div>
+
+<div class="section-title">Choose what to export</div>
+<div class="card"><div class="card-b">
+  <div class="export-grid">
+    <div class="exp-card" onclick="doExport('Statement summary')">
+      <h4>🧾 Statement summary</h4>
+      <p>Statements aggregated by payout period, with settlement, actual payout and status.</p>
+      <div class="meta"><span>6 statements</span><span>Period 2026/08/14–08/21</span></div>
+      <button class="exp-btn">↓ Export Excel / CSV</button>
+    </div>
+    <div class="exp-card" onclick="doExport('Transaction detail')">
+      <h4>📋 Transaction detail bill</h4>
+      <p>Line-by-line received amount, fees, settlement and source channel at order level.</p>
+      <div class="meta"><span>6,976 orders</span><span>With reconciliation links</span></div>
+      <button class="exp-btn">↓ Export Excel / CSV</button>
+    </div>
+    <div class="exp-card" onclick="doExport('Discrepancy ledger')">
+      <h4>⚖️ Discrepancy ledger</h4>
+      <p>Abnormal deductions: shipping surcharge, return liability, FX conversion difference, etc.</p>
+      <div class="meta"><span>3 discrepancy types</span><span>With ruling snapshot</span></div>
+      <button class="exp-btn">↓ Export Excel / CSV</button>
+    </div>
+    <div class="exp-card" onclick="doExport('Profit report')">
+      <h4>📈 Profit report</h4>
+      <p>The full waterfall from settlement to net profit, including cost and ad caliber.</p>
+      <div class="meta"><span>Business caliber</span><span>With completeness annotation</span></div>
+      <button class="exp-btn">↓ Export Excel / PDF</button>
+    </div>
+  </div>
+  <div class="hint">🌏 Export currency defaults to IDR (Rp), switchable to USD at the day's FX rate; every amount is labeled platform caliber / business caliber, so tax filing and internal accounting never mix.</div>
+</div></div>
+`
+};
+
+/* -------- Detail database (opens drawer on click) -------- */
+const DETAILS = {
+  net:{t:'Net Settlement (this period)',s:'Rp 1,402,180,000 · settlement caliber',rows:[
+    ['Product Sales GMV','Rp 1,842,600,000'],['− Platform fees','−Rp 395,570,000',1],['− Returns & refunds','−Rp 44,850,000',1],
+    ['= Net settlement','Rp 1,402,180,000'],['Source orders','6,976 completed']]},
+  gmv:{t:'Product Sales GMV',s:'Rp 1,842,600,000 · ▲12.4% vs last period',rows:[
+    ['Short video channel','Rp 755,000,000'],['Live channel','Rp 501,000,000'],['Mall shelf','Rp 438,600,000'],['Product card','Rp 148,000,000'],['Total','Rp 1,842,600,000']]},
+  fee:{t:'Platform fee breakdown',s:'−Rp 395,570,000',rows:[
+    ['Commission (category + affiliate)','−Rp 92,130,000',1],['Transaction fees (payment + service)','−Rp 238,950,000',1],['Shipping & surcharge','−Rp 64,490,000',1],['Total','−Rp 395,570,000',1]]},
+  'fee-comm':{t:'Platform Commission',s:'−Rp 92,130,000',rows:[['Category base commission','−Rp 63,730,000',1],['Affiliate creator share','−Rp 28,400,000',1],['Total','−Rp 92,130,000',1]]},
+  'fee-trans':{t:'Transaction Fees',s:'−Rp 238,950,000',rows:[['Payment channel fee','−Rp 147,410,000',1],['Platform transaction service fee','−Rp 91,540,000',1],['Total','−Rp 238,950,000',1]]},
+  'fee-ship':{t:'Shipping & Surcharge',s:'−Rp 64,490,000',rows:[['Platform carriage base shipping','−Rp 63,206,000',1],['Actual-weight surcharge','−Rp 1,284,000',1],['Total','−Rp 64,490,000',1]]},
+  refund:{t:'Returns & Refunds',s:'−Rp 44,850,000 · 382 orders · 5.47%',rows:[['Full-order refund','−Rp 31,200,000',1],['Partial refund','−Rp 9,540,000',1],['Shipping refund','−Rp 4,110,000',1],['Refund count','382 orders'],['Refund rate','5.47% (category avg 5.9%)']]},
+  reserve:{t:'Settlement Reserve',s:'Rp 45,240,000 · released after window',rows:[['Accrual base','Net settlement'],['Accrual ratio','≈ 3.2% (dynamic by category return rate)'],['Expected release','T+7 after payout window ends'],['Current reserve','Rp 45,240,000']]},
+  pending:{t:'In-transit / Pending',s:'Rp 486,320,000',rows:[['Processing statements','Rp 224,762,000'],['Period accounting','Rp 161,048,000'],['Frozen','Rp 48,298,000'],['Payout failed, awaiting retry','Rp 34,112,000'],['Other in-transit','Rp 18,100,000'],['Total','Rp 486,320,000']]},
+  arrived:{t:'Actual Payout (this period)',s:'Rp 1,356,940,000',rows:[['Paid-out statements','STM-…004 / …003, 2 statements'],['Into bank account','Rp 1,356,940,000'],['Linked account','BCA ****3271']]},
+  withdrawable:{t:'Withdrawable Balance',s:'Rp 412,180,000',rows:[['Reserve-released amount','Rp 412,180,000'],['Withdrawable statements','2 statements'],['Withdrawal method','BCA / Mandiri / DANA / OVO'],['Expected arrival','1–2 business days after request']]},
+  paid:{t:'Order Payment',s:'Rp 1,842,600,000',rows:[['Buyer paid & ordered','Rp 1,842,600,000'],['Completed orders','6,976 orders']]},
+  confirmed:{t:'Confirmed Revenue',s:'Rp 1,402,180,000',rows:[['Delivery confirmed','Rp 1,842,600,000'],['− Platform fees','−Rp 395,570,000',1],['− Returns & refunds','−Rp 44,850,000',1],['= Confirmed','Rp 1,402,180,000']]},
+  'diff-ship':{t:'Shipping Surcharge',s:'−Rp 1,284,000 · pending',rows:[['Linked orders','32 orders'],['Ruling basis','Re-billed by picked-up actual weight'],['Gap vs checkout estimate','−Rp 1,284,000',1],['Status','Pending · appeal available']]},
+  'diff-return':{t:'After-sales Return Liability',s:'−Rp 3,116,000 · deducted',rows:[['Linked orders','9 orders'],['Ruling','Seller-liable (defect / mismatch)'],['Returned shipping','−Rp 936,000',1],['Goods cost','−Rp 2,180,000',1],['Total','−Rp 3,116,000',1]]},
+  'diff-fx':{t:'FX Conversion Difference',s:'−Rp 842,000 · automatic',rows:[['Conversion rule','Converted at posting-date mid rate'],['Order-date rate','1 USD ≈ 16,290 IDR'],['Posting-date rate','1 USD ≈ 16,320 IDR'],['Conversion difference','−Rp 842,000',1]]},
+  completeness:{t:'Data Completeness 72%',s:'More accurate profit diagnosis once completed',rows:[['Platform transaction & fees','100% connected'],['Ad spend','100% auto-connected'],['Product cost (COGS)','68% filled'],['Unfilled SKUs','Imputed at category average'],['Suggestion','Complete the remaining 32% of cost']]},
+  'profit-plat':{t:'Platform caliber · Settlement Profit',s:'Rp 1,402,180,000',rows:[['Source','Platform net settlement'],['Deducted','Platform fees + refunds'],['Not deducted','Procurement cost + ad spend + ops'],['Note','The platform does not hold your cost data']]},
+  'profit-real':{t:'Business caliber · True Net Profit',s:'Rp 318,000,000 · margin 17.3%',rows:[['Net settlement','Rp 1,402,180,000'],['− Product cost','−Rp 868,000,000',1],['− Ad spend','−Rp 82,900,000',1],['− Creator commission','−Rp 58,400,000',1],['− Other operating','−Rp 74,880,000',1],['= Net profit','Rp 318,000,000']]},
+  cogs:{t:'Product Cost (COGS)',s:'−Rp 868,000,000 · 68% filled',rows:[['Filled SKU cost','−Rp 590,240,000',1],['Unfilled SKU (imputed at category avg)','−Rp 277,760,000',1],['Total','−Rp 868,000,000',1],['Tip','Completing improves profit precision']]},
+  adcost:{t:'Ad Spend',s:'−Rp 82,900,000 · auto-connected',rows:[['Video ads','−Rp 48,600,000',1],['Live promotion','−Rp 26,300,000',1],['Mall ads','−Rp 8,000,000',1],['Ad ROI','6.4'],['Share of GMV','4.5%']]},
+  'creator-cost':{t:'Creator Commission',s:'−Rp 58,400,000',rows:[['@rumahrapi','−Rp 19,400,000',1],['@beautyzone','−Rp 24,960,000',1],['@gayahidup','−Rp 14,040,000',1],['Total','−Rp 58,400,000',1]]},
+  opcost:{t:'Other Operating Cost',s:'−Rp 74,880,000',rows:[['Packaging','−Rp 21,400,000',1],['Warehousing','−Rp 32,180,000',1],['Customer service & after-sales','−Rp 21,300,000',1],['Total','−Rp 74,880,000',1]]},
+  aov:{t:'Average Order Value',s:'Rp 264,140 · ▲3.1% vs last period',rows:[['This period AOV','Rp 264,140'],['Last period AOV','Rp 256,200'],['Change','▲ 3.1%'],['Driver','Bundles + threshold discounts']]},
+  roi:{t:'Ad ROI',s:'6.4',rows:[['GMV from ads','Rp 530,560,000'],['Ad spend','Rp 82,900,000'],['ROI','6.4'],['Category reference','4.5–5.5']]},
+  content:{t:'Content GMV Share',s:'68.2%',rows:[['Short video','Rp 755,000,000'],['Live','Rp 501,000,000'],['Content total','Rp 1,256,000,000'],['Share of total GMV','68.2%']]},
+  'ch-video':{t:'Short video channel',s:'Rp 755,000,000 · share 41.0%',rows:[['GMV','Rp 755,000,000'],['Orders','2,860 orders'],['Net margin','19.2%']]},
+  'ch-live':{t:'Live channel',s:'Rp 501,000,000 · share 27.2%',rows:[['GMV','Rp 501,000,000'],['Orders','1,910 orders'],['Net margin','14.8%']]},
+  'ch-mall':{t:'Mall shelf',s:'Rp 438,600,000 · share 23.8%',rows:[['GMV','Rp 438,600,000'],['Orders','1,680 orders'],['Net margin','22.6%']]},
+  'ch-card':{t:'Product card',s:'Rp 148,000,000 · share 8.0%',rows:[['GMV','Rp 148,000,000'],['Orders','526 orders'],['Net margin','20.1%']]},
+  'cr-rumahrapi':{t:'@rumahrapi',s:'Driven GMV Rp 486,000,000',rows:[['Driven GMV','Rp 486,000,000'],['Commission','−Rp 19,400,000',1],['Commission rate','4.0%'],['Driven ROI','25.1'],['Suggestion','Best ROI · scale up support']]},
+  'cr-beautyzone':{t:'@beautyzone',s:'Driven GMV Rp 312,000,000',rows:[['Driven GMV','Rp 312,000,000'],['Commission','−Rp 24,960,000',1],['Commission rate','8.0%'],['Driven ROI','12.5']]},
+  'cr-gayahidup':{t:'@gayahidup',s:'Driven GMV Rp 158,000,000',rows:[['Driven GMV','Rp 158,000,000'],['Commission','−Rp 14,040,000',1],['Commission rate','8.9%'],['Driven ROI','6.2'],['Suggestion','Low ROI · review product selection']]},
+  'cat-box':{t:'Desk storage',s:'Net margin 21.4%',rows:[['GMV','Rp 682,000,000'],['Net margin','21.4%'],['Return rate','4.1%'],['Assessment','Profit anchor']]},
+  'cat-hang':{t:'Apparel storage',s:'Net margin 18.0%',rows:[['GMV','Rp 524,000,000'],['Net margin','18.0%'],['Return rate','5.2%']]},
+  'cat-basket':{t:'Fabric storage',s:'Net margin 11.1%',rows:[['GMV','Rp 396,600,000'],['Net margin','11.1%'],['Return rate','8.9%'],['Issue','High return rate drags margin']]},
+  'cat-other':{t:'Other categories',s:'Net margin 12.8%',rows:[['GMV','Rp 240,000,000'],['Net margin','12.8%']]}
+};
+
+/* Statement detail */
+const STATEMENTS = {
+  'STM-20260819-004':{orders:'2,184',amt:'Rp 335,400,000',st:'Paid out',rows:[['Product sales','Rp 441,300,000'],['− Platform fees','−Rp 94,700,000',1],['− Returns & refunds','−Rp 11,200,000',1],['= Settlement','Rp 335,400,000'],['Payout date','2026/08/22'],['Payout account','BCA ****3271']]},
+  'STM-20260816-003':{orders:'2,007',amt:'Rp 316,770,000',st:'Paid out',rows:[['Product sales','Rp 417,100,000'],['− Platform fees','−Rp 89,630,000',1],['− Returns & refunds','−Rp 10,700,000',1],['= Settlement','Rp 316,770,000'],['Payout date','2026/08/19']]},
+  'STM-20260819-005':{orders:'1,462',amt:'Rp 224,762,000',st:'Processing',rows:[['Product sales','Rp 296,400,000'],['− Platform fees','−Rp 63,638,000',1],['− Returns & refunds','−Rp 8,000,000',1],['= Settlement','Rp 224,762,000'],['Expected payout','2026/08/26']]},
+  'STM-20260820-006':{orders:'1,043',amt:'Rp 161,048,000',st:'Period accounting',rows:[['Product sales','Rp 212,400,000'],['− Platform fees','−Rp 45,552,000',1],['− Returns & refunds','−Rp 5,800,000',1],['= Settlement','Rp 161,048,000'],['Status','Accounting within period']]},
+  'STM-20260818-007':{orders:'312',amt:'Rp 48,298,000',st:'Frozen',rows:[['Product sales','Rp 63,700,000'],['− Platform fees','−Rp 13,662,000',1],['− Returns & refunds','−Rp 1,740,000',1],['= Settlement','Rp 48,298,000'],['Freeze reason','Linked discrepancy orders under review']]},
+  'STM-20260814-008':{orders:'221',amt:'Rp 34,112,000',st:'Payout failed',rows:[['Settlement','Rp 34,112,000'],['Failure reason','Bank account info failed validation'],['Suggestion','Update withdrawal account and retry'],['Retry path','Withdrawal Settings → Bank card']]}
+};
+
+/* Order detail */
+const ORDERS = {
+  'IDN2608A2K9':{p:'Desk Organizer · Off-white M',src:'Short video',rows:[['Received','Rp 298,000'],['Platform commission','−Rp 11,920',1],['Transaction fee','−Rp 38,740',1],['Shipping','−Rp 9,020',1],['Settlement','Rp 238,320'],['Status','Paid out']]},
+  'IDN2608B7T3':{p:'Foldable Hanging Organizer · 6-cell',src:'Mall',rows:[['Received','Rp 189,000'],['Platform commission','−Rp 7,560',1],['Transaction fee','−Rp 24,570',1],['Shipping','−Rp 7,110',1],['Settlement','Rp 149,760'],['Status','Paid out']]},
+  'IDN2608C5P1':{p:'Drawer Dividers · 4-piece set',src:'Live',rows:[['Received','Rp 435,000'],['Platform commission (incl. creator share)','−Rp 43,500',1],['Transaction fee','−Rp 43,500',1],['Shipping','−Rp 9,000',1],['Settlement','Rp 339,000'],['Discrepancy note','Shipping surcharge pending confirmation'],['Status','Processing · discrepancy']]},
+  'IDN2608D9M4':{p:'Desk Organizer · Dark-gray L',src:'Short video',rows:[['Received','Rp 168,000'],['Platform commission','−Rp 6,720',1],['Transaction fee','−Rp 21,840',1],['Shipping','−Rp 7,320',1],['Settlement','Rp 132,120'],['Status','Period accounting']]},
+  'IDN2608E1R7':{p:'Fabric Storage Basket · Large',src:'Live',rows:[['Received','Rp 0 (full-order refund)'],['Returned shipping (seller-liable)','−Rp 52,000',1],['Settlement','−Rp 52,000',1],['Discrepancy','After-sales return liability'],['Status','Frozen · discrepancy']]}
+};
+
+/* -------- AI suggested questions (switch by current page) -------- */
+const SUGS = {
+  recon:['Why is there a 45,240,000 reserve not yet paid out this period?','How much are platform fees and refunds respectively?','Which orders settled negative, and why?','Why did STM-20260814-008 fail to pay out?'],
+  biz:['Why is true net profit only about a fifth of the settlement amount?','Which channel has the highest net margin?',"Why is @gayahidup's ROI low?",'Should we keep investing in the fabric storage category?']
+};
+
+/* ============ Interaction logic ============ */
+let curRole='recon';
+
+function go(el,page){
+  document.querySelectorAll('.nav-item').forEach(n=>{n.classList.remove('active','blue');});
+  el.classList.add('active');
+  if(page==='p-profit'||page==='p-attr'){el.classList.add('blue');}
+  document.getElementById('content').innerHTML = `<div class="page show" id="${page}">${PAGES[page]}</div>`;
+  window.scrollTo(0,0);
+  // Switch Rami's suggested questions by page (one assistant, no role tabs)
+  setContext(page==='p-profit'||page==='p-attr' ? 'biz' : 'recon');
+  animateBars();
+}
+
+function animateBars(){
+  // Trigger transition animation
+  requestAnimationFrame(()=>{document.querySelectorAll('.wf-bar,.attr-bar').forEach(b=>{const w=b.style.width;b.style.width='0';requestAnimationFrame(()=>b.style.width=w);});});
+}
+
+function pickTime(el,label,range){
+  document.querySelectorAll('#timepick button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('rangeText').textContent = range;
+  toast(`Switched period: ${label} (demo data reflects this period)`);
+}
+
+/* ---- Drawer ---- */
+let lastDrawerTitle='';
+function drawerRows(rows){
+  return rows.map(r=>`<div class="det-line"><div class="dl-l">${r[0]}</div><div class="dl-v ${r[2]?'neg':''}">${r[1]}</div></div>`).join('');
+}
+function showDrawer(title,sub,html){
+  lastDrawerTitle=title;
+  document.getElementById('drawerTitle').textContent=title;
+  document.getElementById('drawerSub').textContent=sub;
+  document.getElementById('drawerBody').innerHTML=html;
+  document.getElementById('drawer').classList.add('show');
+  document.getElementById('drawerMask').classList.add('show');
+}
+function openDetail(key){
+  const d=DETAILS[key]; if(!d)return;
+  showDrawer(d.t,d.s,drawerRows(d.rows));
+}
+function openStatement(id){
+  const s=STATEMENTS[id];
+  showDrawer(id,`Statement · ${s.orders} orders · settlement ${s.amt}`,
+    `<div style="margin-bottom:12px"><span class="st ${stCls(s.st)}"><span class="d"></span>${s.st}</span></div>`+drawerRows(s.rows));
+}
+function openOrder(id){
+  const o=ORDERS[id];
+  showDrawer(id,`${o.p} · order settlement detail`,drawerRows(o.rows));
+}
+function stCls(t){return {'Paid out':'ok','Processing':'ing','Period accounting':'acc','Frozen':'frz','Payout failed':'fail'}[t]||'ing';}
+function closeDrawer(){document.getElementById('drawer').classList.remove('show');document.getElementById('drawerMask').classList.remove('show');}
+function gotoBackend(){toast('Redirecting to "Data Detail Backend"… (demo: this links to the Seller Center settlement backend)');}
+function askFromDrawer(){askAI(`Explain the "${lastDrawerTitle}" figure for me`);closeDrawer();}
+
+/* ---- AI panel ---- */
+function setContext(ctx){
+  curRole=ctx;
+  document.getElementById('aiRole').textContent = 'Your billing & business assistant · all data from your store';
+  renderSugs();
+}
+function renderSugs(){
+  document.getElementById('aiSugs').innerHTML =
+    SUGS[curRole].map(q=>`<button class="ai-sug" onclick="askAI('${q.replace(/'/g,"\\'")}')">${q}</button>`).join('');
+}
+function pushMsg(text,who){
+  const b=document.getElementById('aiBody');
+  const el=document.createElement('div');
+  el.className='msg '+who; el.innerHTML=text;
+  b.insertBefore(el, document.getElementById('aiSugs'));
+  b.scrollTop=b.scrollHeight;
+}
+const ANSWERS={
+  'Why is there a 45,240,000 reserve not yet paid out this period?':'The settlement reserve this period is <b>Rp 45,240,000</b> — a risk provision the platform accrues dynamically based on your <b>home category return rate</b>, about 3.2% of net settlement. It is not deducted, but <b>held temporarily</b> — it releases automatically to your withdrawable balance after the payout window ends (T+7) and the return window closes.',
+  'How much are platform fees and refunds respectively?':'This period <b>platform fees are −Rp 395,570,000</b> (commission 92,130,000 + transaction fees 238,950,000 + shipping 64,490,000); <b>returns & refunds are −Rp 44,850,000</b> (382 orders, refund rate 5.47%, slightly below the category average of 5.9%). Together they deduct about 23.9% from GMV.',
+  'Which orders settled negative, and why?':'This period <b>1 order</b> settled negative: <b>IDN2608E1R7</b> (Fabric Storage Basket · Large, settlement −Rp 52,000). The buyer refunded the full order and it was ruled <b>seller-liable</b>, so the returned shipping is borne by this store — filed under "After-sales return liability" in the Discrepancy Ledger.',
+  'Why did STM-20260814-008 fail to pay out?':'Statement <b>STM-20260814-008</b> (Rp 34,112,000) failed to pay out because the <b>bank account info failed validation</b>. Go to "Withdrawal Settings → Bank card" to update the account and retry — the amount is not lost and will re-enter the withdrawable queue.',
+  'Why is true net profit only about a fifth of the settlement amount?':'The platform settlement of <b>Rp 1,402,180,000</b> only deducts platform fees, not your <b>procurement cost (−868,000,000), ad spend (−82,900,000), creator commission (−58,400,000), operations (−74,880,000)</b>. After completing these, true net profit is <b>Rp 318,000,000</b>, a 17.3% margin — product cost is the largest chunk, which is normal for e-commerce.',
+  'Which channel has the highest net margin?':'<b>Mall shelf has the highest net margin (22.6%)</b> because it carries no content-channel creator commission or ad spend; short video is 19.2%, product card 20.1%, live 14.8%. Use content to drive traffic and shelf to absorb repeat purchases to lift overall margin.',
+  'Why is @gayahidup\'s ROI low?':'@gayahidup\'s driven ROI is <b>6.2</b>, clearly below @rumahrapi (25.1) and @beautyzone (12.5). The reason is the <b>highest commission rate (8.9%) but weaker AOV and conversion</b>, plus a high return rate in the fabric storage category it mainly promotes. Review product-fit, or switch to performance-based settlement.',
+  'Should we keep investing in the fabric storage category?':'Cautiously. Fabric storage has GMV of Rp 396,600,000 but <b>only 11.1% net margin</b> and an 8.9% return rate (far above desk storage\'s 4.1%). First improve the product detail page and sizing notes to cut returns, then decide on more investment; for now, tilt budget toward desk storage (21.4% margin).'
+};
+function askAI(q){
+  pushMsg(q,'me');
+  setTimeout(()=>{
+    const a = ANSWERS[q] || `Regarding "${q}": this question is answered in real time using your store's settlement data. In the demo, Rami locates the relevant statement / order / attribution dimension and gives traceable detail and suggestions.`;
+    pushMsg(a,'bot');
+  },380);
+}
+function sendAI(){
+  const t=document.getElementById('aiInput');
+  if(!t.value.trim())return;
+  askAI(t.value.trim()); t.value='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.target.id==='aiInput'&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}
+  if(e.key==='Escape')closeDrawer();
+});
+function doExport(name){toast(`Generating "${name}" export file… (demo: will export by the current time window and IDR caliber)`);}
+
+/* ---- Toast ---- */
+let toastTimer;
+function toast(msg){
+  let t=document.getElementById('__toast');
+  if(!t){t=document.createElement('div');t.id='__toast';
+    t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#161823;color:#fff;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:600;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.28);transition:.2s;opacity:0;';
+    document.body.appendChild(t);}
+  t.textContent=msg; t.style.opacity='1'; t.style.bottom='26px';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.bottom='16px';},2400);
+}
+
+/* ---- Init ---- */
+renderSugs();
+go(document.querySelector('.nav-item'),'p-settle');
+
+</script>
+</body>
+</html>

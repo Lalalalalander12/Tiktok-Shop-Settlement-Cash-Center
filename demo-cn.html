@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>结算与资金中心 · TikTok Shop 商家中心（仅限印尼站）</title>
+<style>
+  :root{
+    /* TTS 黑白红蓝 主色 */
+    --tt-black:#0b0b0f;
+    --tt-ink:#161823;
+    --tt-white:#ffffff;
+    --tt-red:#fe2c55;
+    --tt-blue:#25f4ee;      /* TTS 青蓝 */
+    --tt-blue-deep:#2d5cff; /* 数据蓝 */
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --line:#ececf1;
+    --line-2:#f2f2f5;
+    --txt:#161823;
+    --txt-2:#5b5d6b;
+    --txt-3:#9a9ca8;
+    --green:#12b76a;
+    --amber:#f79009;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+    --shadow-lg:0 12px 40px rgba(16,24,40,.14);
+    --sidebar-w:236px;
+    --ai-w:340px;
+    --top-h:60px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--txt);
+    font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(254,44,85,.16);}
+
+  /* ============ 顶栏 ============ */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:var(--top-h);z-index:60;
+    background:var(--tt-black);color:#fff;
+    display:flex;align-items:center;gap:18px;padding:0 20px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px;white-space:nowrap;}
+  .brand .logo{
+    width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--tt-red),#ff5c78);font-size:15px;
+  }
+  .brand .logo::after{content:"₿";color:#fff;font-weight:900;}
+  .brand .sub{font-size:12px;color:#a9abb6;font-weight:500;}
+  .topbar .divider{width:1px;height:26px;background:rgba(255,255,255,.12);}
+
+  .badge-id{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+    background:rgba(254,44,85,.16);color:#ff92a8;border:1px solid rgba(254,44,85,.35);
+    padding:5px 11px;border-radius:999px;white-space:nowrap;
+  }
+  .badge-id .dot{width:6px;height:6px;border-radius:50%;background:var(--tt-red);}
+
+  .fx{display:flex;align-items:center;gap:8px;font-size:12px;color:#c7c9d3;white-space:nowrap;}
+  .fx b{color:#fff;font-weight:700;}
+  .fx .fx-tag{font-size:10px;color:#8a8c98;border:1px solid rgba(255,255,255,.14);padding:1px 6px;border-radius:6px;}
+
+  .top-spacer{flex:1;}
+
+  /* 时间选择器 */
+  .timepick{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:4px;}
+  .timepick button{
+    background:transparent;border:none;color:#c7c9d3;font-size:12.5px;font-weight:600;
+    padding:6px 12px;border-radius:7px;cursor:pointer;transition:.15s;white-space:nowrap;
+  }
+  .timepick button:hover{color:#fff;}
+  .timepick button.active{background:#fff;color:var(--tt-ink);}
+  .range-label{font-size:12px;color:#a9abb6;white-space:nowrap;}
+  .range-label b{color:#fff;}
+
+  /* ============ 布局 ============ */
+  .layout{display:flex;padding-top:var(--top-h);min-height:100vh;}
+
+  /* 左侧导航 */
+  .sidebar{
+    width:var(--sidebar-w);flex:none;position:fixed;top:var(--top-h);bottom:0;left:0;
+    background:#fff;border-right:1px solid var(--line);overflow-y:auto;padding:16px 12px 40px;z-index:40;
+  }
+  .nav-shop{display:flex;align-items:center;gap:10px;padding:10px 10px 14px;border-bottom:1px solid var(--line-2);margin-bottom:10px;}
+  .nav-shop .avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#2d5cff,#25f4ee);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;}
+  .nav-shop .n{font-weight:700;font-size:13.5px;line-height:1.2;}
+  .nav-shop .r{font-size:11px;color:var(--txt-3);}
+  .nav-group{margin-top:14px;}
+  .nav-group .g-title{font-size:11px;font-weight:700;color:var(--txt-3);letter-spacing:.4px;padding:6px 10px;text-transform:uppercase;display:flex;align-items:center;gap:7px;}
+  .nav-group .g-title .k{font-size:10px;color:#fff;background:var(--tt-ink);border-radius:5px;padding:1px 6px;font-weight:700;}
+  .nav-group.p2 .g-title .k{background:var(--tt-blue-deep);}
+  .nav-group.p3 .g-title .k{background:var(--amber);}
+  .nav-item{
+    display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;cursor:pointer;
+    color:var(--txt-2);font-weight:600;font-size:13px;transition:.14s;margin:2px 0;position:relative;
+  }
+  .nav-item .ic{width:18px;text-align:center;font-size:14px;filter:grayscale(.2);}
+  .nav-item.indent{margin-left:14px;}
+  .nav-item.indent::after{content:"";position:absolute;left:-8px;top:50%;width:5px;height:1px;background:var(--line);}
+  .nav-item:hover{background:var(--line-2);color:var(--txt);}
+  .nav-item.active{background:rgba(254,44,85,.08);color:var(--tt-red);}
+  .nav-item.active.blue{background:rgba(45,92,255,.08);color:var(--tt-blue-deep);}
+  .nav-item.active::before{content:"";position:absolute;left:-12px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:currentColor;}
+  .nav-tool{margin-top:14px;}
+
+  /* 中间内容 */
+  .content{margin-left:var(--sidebar-w);margin-right:var(--ai-w);flex:1;padding:26px 30px 80px;min-width:0;}
+  .page{display:none;animation:fade .28s ease;}
+  .page.show{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .page-head{margin-bottom:18px;}
+  .page-head h1{font-size:22px;font-weight:800;margin:0 0 6px;letter-spacing:-.2px;}
+  .page-head p{margin:0;color:var(--txt-2);font-size:13px;max-width:760px;}
+  .caliber-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+  .caliber-tag.plat{background:rgba(45,92,255,.1);color:var(--tt-blue-deep);}
+  .caliber-tag.biz{background:rgba(18,183,106,.12);color:var(--green);}
+
+  /* 页内二级 Tab */
+  .subtabs{display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:5px;margin:16px 0 20px;width:fit-content;box-shadow:var(--shadow);}
+  .subtabs button{border:none;background:transparent;font-size:13px;font-weight:700;color:var(--txt-2);padding:8px 16px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap;}
+  .subtabs button:hover{color:var(--txt);}
+  .subtabs button.active{background:var(--tt-ink);color:#fff;}
+  .subpane{display:none;}
+  .subpane.show{display:block;animation:fade .22s ease;}
+
+  /* 卡片通用 */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
+  .card-h{padding:16px 18px 0;}
+  .card-h h3{margin:0;font-size:15px;font-weight:800;}
+  .card-h .desc{margin:4px 0 0;font-size:12.5px;color:var(--txt-2);}
+  .card-b{padding:18px;}
+  .section-title{font-size:15px;font-weight:800;margin:26px 0 12px;display:flex;align-items:center;gap:9px;}
+  .section-title .desc{font-size:12px;font-weight:500;color:var(--txt-3);}
+
+  /* KPI 卡片网格 */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;}
+  .kpi{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 15px;
+    box-shadow:var(--shadow);position:relative;cursor:pointer;transition:.16s;overflow:hidden;
+  }
+  .kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:#dfe0e6;}
+  .kpi .lab{font-size:12.5px;color:var(--txt-2);font-weight:600;display:flex;align-items:center;gap:6px;}
+  .kpi .val{font-size:23px;font-weight:800;margin-top:8px;letter-spacing:-.5px;}
+  .kpi .val .cur{font-size:13px;color:var(--txt-3);font-weight:700;margin-right:3px;}
+  .kpi .sub{font-size:11.5px;color:var(--txt-3);margin-top:5px;}
+  .kpi .chip{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;}
+  .chip.up{background:rgba(18,183,106,.12);color:var(--green);}
+  .chip.down{background:rgba(254,44,85,.1);color:var(--tt-red);}
+  .chip.flat{background:var(--line-2);color:var(--txt-2);}
+  .kpi .accent{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tt-blue-deep);}
+  .kpi.k-red .accent{background:var(--tt-red);}
+  .kpi.k-green .accent{background:var(--green);}
+
+  /* 悬浮问AI 气泡 */
+  /* 悬浮微交互：简约小气泡（问 Rami + 点击查看详情） */
+  .ai-dot{display:none;}
+  .ai-tip{
+    position:absolute;top:10px;right:10px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+    opacity:0;transform:translateY(-4px);pointer-events:none;transition:.16s;z-index:6;
+  }
+  .kpi:hover .ai-tip,.cal-card:hover .ai-tip{opacity:1;transform:none;pointer-events:auto;}
+  .ai-tip .ask-mini{
+    display:inline-flex;align-items:center;gap:5px;background:var(--tt-red);color:#fff;font-size:11.5px;font-weight:800;
+    padding:5px 11px;border-radius:999px;cursor:pointer;box-shadow:0 4px 12px rgba(254,44,85,.35);white-space:nowrap;
+  }
+  .ai-tip .ask-mini:hover{background:#e01e46;}
+  .ai-tip .detail-mini{font-size:11px;font-weight:600;color:var(--txt-2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap;box-shadow:var(--shadow);}
+
+  /* 瀑布 / 桑基式扣费 */
+  .waterfall{display:flex;flex-direction:column;gap:2px;margin-top:6px;}
+  .wf-row{display:grid;grid-template-columns:180px 1fr 150px;align-items:center;gap:14px;padding:11px 6px;border-radius:9px;cursor:pointer;transition:.14s;position:relative;}
+  .wf-row:hover{background:var(--line-2);}
+  .wf-row .wf-name{font-weight:700;font-size:13px;}
+  .wf-row .wf-name small{display:block;font-weight:500;color:var(--txt-3);font-size:11px;margin-top:1px;}
+  .wf-bar-wrap{height:26px;background:var(--line-2);border-radius:7px;overflow:visible;position:relative;}
+  .wf-bar{height:100%;border-radius:7px;transition:width .8s cubic-bezier(.2,.8,.2,1);}
+  .wf-bar.total{background:linear-gradient(90deg,#2d5cff,#5b82ff);}
+  .wf-bar.deduct{background:linear-gradient(90deg,#fe2c55,#ff6b83);}
+  .wf-bar.pending{background:linear-gradient(90deg,#f79009,#fbbf5a);}
+  .wf-bar.final{background:linear-gradient(90deg,#12b76a,#3ed492);}
+  .wf-amt{text-align:right;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums;}
+  .wf-amt.neg{color:var(--tt-red);}
+  .wf-amt.pos{color:var(--green);}
+  .wf-formula{margin-top:14px;padding:12px 14px;background:var(--tt-ink);color:#c7c9d3;border-radius:10px;font-size:12px;font-family:ui-monospace,Menlo,monospace;line-height:1.7;}
+  .wf-formula b{color:var(--tt-blue);}
+
+  /* 资金生命周期 timeline */
+  .lifecycle{display:flex;gap:0;margin-top:8px;overflow-x:auto;padding-bottom:6px;}
+  .lc-step{flex:1;min-width:150px;position:relative;padding:0 8px;}
+  .lc-step .node{width:14px;height:14px;border-radius:50%;background:var(--tt-blue-deep);margin:0 auto 12px;position:relative;z-index:2;box-shadow:0 0 0 4px rgba(45,92,255,.14);}
+  .lc-step.res .node{background:var(--amber);box-shadow:0 0 0 4px rgba(247,144,9,.14);}
+  .lc-step.done .node{background:var(--green);box-shadow:0 0 0 4px rgba(18,183,106,.14);}
+  .lc-step::before{content:"";position:absolute;top:6px;left:-50%;width:100%;height:2px;background:var(--line);z-index:1;}
+  .lc-step:first-child::before{display:none;}
+  .lc-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:.15s;}
+  .lc-card:hover{border-color:#dfe0e6;box-shadow:var(--shadow);}
+  .lc-card .lc-lab{font-size:12px;color:var(--txt-2);font-weight:600;}
+  .lc-card .lc-val{font-size:15px;font-weight:800;margin:5px 0 3px;}
+  .lc-card .lc-note{font-size:10.5px;color:var(--txt-3);line-height:1.4;}
+
+  /* 表格 */
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;}
+  .tbl th{text-align:left;font-size:11.5px;font-weight:700;color:var(--txt-3);padding:10px 12px;border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.3px;}
+  .tbl td{padding:12px;border-bottom:1px solid var(--line-2);vertical-align:middle;}
+  .tbl tr.click{cursor:pointer;transition:.13s;}
+  .tbl tr.click:hover{background:var(--line-2);}
+  .tbl .num{font-variant-numeric:tabular-nums;font-weight:700;text-align:right;}
+  .tbl .neg{color:var(--tt-red);}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:600;}
+  .st{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+  .st .d{width:6px;height:6px;border-radius:50%;}
+  .st.ok{background:rgba(18,183,106,.12);color:var(--green);}.st.ok .d{background:var(--green);}
+  .st.ing{background:rgba(45,92,255,.1);color:var(--tt-blue-deep);}.st.ing .d{background:var(--tt-blue-deep);}
+  .st.acc{background:rgba(247,144,9,.12);color:var(--amber);}.st.acc .d{background:var(--amber);}
+  .st.frz{background:#eef0f4;color:var(--txt-2);}.st.frz .d{background:var(--txt-2);}
+  .st.fail{background:rgba(254,44,85,.1);color:var(--tt-red);}.st.fail .d{background:var(--tt-red);}
+  .st.warn{background:rgba(247,144,9,.12);color:var(--amber);margin-left:6px;}
+  .src-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
+  .src-video{background:rgba(254,44,85,.09);color:var(--tt-red);}
+  .src-live{background:rgba(45,92,255,.09);color:var(--tt-blue-deep);}
+  .src-mall{background:#eef0f4;color:var(--txt-2);}
+  .src-card{background:rgba(18,183,106,.1);color:var(--green);}
+
+  /* 差异台账 */
+  .ledger{display:grid;gap:10px;}
+  .led-row{display:grid;grid-template-columns:1fr 140px 90px;gap:14px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:.14s;}
+  .led-row:hover{border-color:#dfe0e6;box-shadow:var(--shadow);}
+  .led-row .lt{font-weight:700;font-size:13px;}
+  .led-row .lt small{display:block;font-weight:500;color:var(--txt-2);font-size:11.5px;margin-top:2px;}
+  .led-row .la{text-align:right;font-weight:800;color:var(--tt-red);font-variant-numeric:tabular-nums;}
+
+  /* 数据来源完整度 */
+  .completeness{display:flex;align-items:center;gap:14px;padding:14px 16px;background:linear-gradient(90deg,rgba(45,92,255,.05),rgba(37,244,238,.04));border:1px solid rgba(45,92,255,.15);border-radius:12px;margin-bottom:18px;}
+  .completeness .ring{width:46px;height:46px;border-radius:50%;background:conic-gradient(var(--tt-blue-deep) 72%,#e6e8ef 0);display:grid;place-items:center;flex:none;}
+  .completeness .ring i{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:12px;color:var(--tt-blue-deep);}
+  .completeness .ct{font-size:12.5px;color:var(--txt-2);}
+  .completeness .ct b{color:var(--txt);}
+  .completeness .fix{margin-left:auto;background:var(--tt-ink);color:#fff;border:none;padding:8px 14px;border-radius:9px;font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+
+  /* 经营健康分 */
+  .health{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;}
+  .health-score{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;flex:none;
+    background:conic-gradient(var(--green) 0 82%,#e6e8ef 82% 100%);}
+  .health-score i{width:92px;height:92px;border-radius:50%;background:#fff;display:grid;place-items:center;flex-direction:column;font-style:normal;text-align:center;line-height:1.1;}
+  .health-score .sc{font-size:30px;font-weight:800;color:var(--green);}
+  .health-score .sl{font-size:10.5px;color:var(--txt-3);font-weight:700;margin-top:2px;}
+  .health-items{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;}
+  .health-item{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line-2);}
+  .health-item .hl{color:var(--txt-2);font-weight:600;}
+  .health-item .hv{font-weight:800;display:inline-flex;align-items:center;gap:6px;}
+  .health-item .tick{font-size:10px;font-weight:800;padding:1px 7px;border-radius:6px;}
+  .tick.good{background:rgba(18,183,106,.12);color:var(--green);}
+  .tick.mid{background:rgba(247,144,9,.12);color:var(--amber);}
+  .tick.bad{background:rgba(254,44,85,.1);color:var(--tt-red);}
+
+  /* 基准线对比条 */
+  .bench{margin-top:10px;}
+  .bench-track{position:relative;height:8px;border-radius:5px;background:var(--line-2);margin:10px 0 4px;}
+  .bench-fill{position:absolute;left:0;top:0;height:100%;border-radius:5px;background:var(--tt-blue-deep);}
+  .bench-fill.g{background:var(--green);}.bench-fill.r{background:var(--tt-red);}
+  .bench-mark{position:absolute;top:-4px;width:2px;height:16px;background:var(--txt);}
+  .bench-mark::after{content:attr(data-l);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9.5px;color:var(--txt-2);white-space:nowrap;font-weight:700;}
+  .bench-legend{display:flex;justify-content:space-between;font-size:11px;color:var(--txt-3);margin-top:2px;}
+
+  /* 利润诊断 双口径 */
+  .caliber-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+  @media(max-width:1180px){.caliber-2{grid-template-columns:1fr;}}
+  .cal-card{border:1px solid var(--line);border-radius:14px;padding:18px;position:relative;overflow:hidden;}
+  .cal-card.plat{background:linear-gradient(180deg,rgba(45,92,255,.05),#fff);}
+  .cal-card.real{background:linear-gradient(180deg,rgba(18,183,106,.06),#fff);}
+  .cal-card .tag{font-size:11px;font-weight:800;letter-spacing:.3px;}
+  .cal-card.plat .tag{color:var(--tt-blue-deep);}
+  .cal-card.real .tag{color:var(--green);}
+  .cal-card .big{font-size:28px;font-weight:800;margin:8px 0 2px;letter-spacing:-.6px;}
+  .cal-card .big .cur{font-size:15px;color:var(--txt-3);margin-right:4px;}
+  .cal-card .rate{font-size:12.5px;color:var(--txt-2);}
+  .cal-card .rate b{font-size:15px;}
+
+  /* 归因条 */
+  .attr{display:grid;gap:12px;margin-top:6px;}
+  .attr-row{display:grid;grid-template-columns:110px 1fr 120px;align-items:center;gap:14px;cursor:pointer;padding:6px;border-radius:9px;transition:.13s;}
+  .attr-row:hover{background:var(--line-2);}
+  .attr-row .an{font-weight:700;font-size:13px;}
+  .attr-bar-wrap{height:22px;background:var(--line-2);border-radius:6px;overflow:hidden;}
+  .attr-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,#fe2c55,#ff6b83);transition:width .8s cubic-bezier(.2,.8,.2,1);}
+  .attr-bar.b{background:linear-gradient(90deg,#2d5cff,#5b82ff);}
+  .attr-bar.g{background:linear-gradient(90deg,#12b76a,#3ed492);}
+  .attr-val{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;}
+  .attr-val small{display:block;font-weight:500;color:var(--txt-3);font-size:11px;}
+
+  /* 导出工具 */
+  .export-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:1180px){.export-grid{grid-template-columns:1fr;}}
+  .exp-card{border:1px solid var(--line);border-radius:13px;padding:16px;cursor:pointer;transition:.15s;}
+  .exp-card:hover{border-color:var(--tt-blue-deep);box-shadow:var(--shadow);}
+  .exp-card h4{margin:0 0 4px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .exp-card p{margin:0;font-size:12px;color:var(--txt-2);}
+  .exp-card .meta{margin-top:10px;font-size:11px;color:var(--txt-3);display:flex;gap:12px;}
+  .exp-btn{margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--line-2);border:none;padding:7px 13px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;color:var(--txt);}
+
+  .backend-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--tt-blue-deep);cursor:pointer;padding:4px 0;}
+  .backend-link:hover{text-decoration:underline;}
+
+  /* ============ 右侧常驻 AI ============ */
+  .ai{
+    width:var(--ai-w);flex:none;position:fixed;top:var(--top-h);bottom:0;right:0;z-index:45;
+    background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;
+  }
+  .ai-head{padding:15px 16px;border-bottom:1px solid var(--line);}
+  .ai-id{display:flex;align-items:center;gap:10px;}
+  .ai-id .av{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--tt-red),var(--tt-blue-deep));display:grid;place-items:center;color:#fff;font-weight:800;}
+  .ai-id .nm{font-weight:800;font-size:14px;}
+  .ai-id .rl{font-size:11px;color:var(--txt-3);}
+  .ai-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  .msg{max-width:88%;padding:11px 13px;border-radius:13px;font-size:12.5px;line-height:1.6;}
+  .msg.bot{background:var(--line-2);border-bottom-left-radius:4px;align-self:flex-start;}
+  .msg.me{background:var(--tt-ink);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+  .msg.bot b{color:var(--tt-blue-deep);}
+  .ai-sugs{display:flex;flex-direction:column;gap:7px;margin-top:2px;}
+  .ai-sug{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:600;color:var(--txt-2);cursor:pointer;transition:.14s;}
+  .ai-sug:hover{border-color:var(--tt-red);color:var(--tt-red);}
+  .ai-input{padding:12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end;}
+  .ai-input textarea{flex:1;border:1px solid var(--line);border-radius:11px;padding:9px 11px;font-size:12.5px;resize:none;font-family:inherit;height:40px;max-height:100px;outline:none;}
+  .ai-input textarea:focus{border-color:var(--tt-ink);}
+  .ai-input .send{width:40px;height:40px;flex:none;border:none;border-radius:11px;background:var(--tt-red);color:#fff;font-size:16px;cursor:pointer;display:grid;place-items:center;}
+
+  /* 抽屉：数据明细 */
+  .drawer-mask{position:fixed;inset:0;background:rgba(11,11,15,.42);z-index:80;opacity:0;pointer-events:none;transition:.22s;}
+  .drawer-mask.show{opacity:1;pointer-events:auto;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:520px;max-width:92vw;background:#fff;z-index:81;box-shadow:var(--shadow-lg);transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;}
+  .drawer.show{transform:none;}
+  .drawer-h{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .drawer-h h3{margin:0;font-size:17px;font-weight:800;}
+  .drawer-h .sub{font-size:12px;color:var(--txt-2);margin-top:3px;}
+  .drawer-h .x{border:none;background:var(--line-2);width:32px;height:32px;border-radius:9px;font-size:16px;cursor:pointer;flex:none;}
+  .drawer-b{flex:1;overflow-y:auto;padding:20px;}
+  .det-line{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line-2);}
+  .det-line .dl-l{font-size:13px;}
+  .det-line .dl-l small{display:block;color:var(--txt-3);font-size:11px;margin-top:2px;}
+  .det-line .dl-v{font-weight:800;font-variant-numeric:tabular-nums;}
+  .det-line .dl-v.neg{color:var(--tt-red);}
+  .drawer-foot{padding:16px 20px;border-top:1px solid var(--line);display:flex;gap:10px;}
+  .drawer-foot button{padding:12px;border-radius:11px;font-weight:800;font-size:13px;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+  .drawer-foot .ask{flex:1.4;background:var(--tt-red);color:#fff;box-shadow:0 6px 16px rgba(254,44,85,.3);}
+  .drawer-foot .ask:hover{background:#e01e46;}
+  .drawer-foot .goto{flex:1;background:#fff;border:1px solid var(--tt-blue-deep);color:var(--tt-blue-deep);}
+  .drawer-foot .goto:hover{background:rgba(45,92,255,.06);}
+
+  .hint{font-size:11.5px;color:var(--txt-3);margin-top:8px;display:flex;align-items:center;gap:6px;}
+
+  @media(max-width:1080px){
+    :root{--ai-w:0px;}
+    .ai{display:none;}
+    .content{margin-right:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 顶栏 ============ -->
+<header class="topbar">
+  <div class="brand">
+    <span class="logo"></span>
+    <span>结算与资金中心 <span class="sub">TikTok Shop 商家中心</span></span>
+  </div>
+  <div class="divider"></div>
+  <span class="badge-id"><span class="dot"></span>仅限印尼站 · ID</span>
+  <div class="fx">
+    <span class="fx-tag">汇率</span>
+    <span>1 USD ≈ <b>16.320</b> IDR</span>
+    <span class="fx-tag">入账日中间价 · 2026/08/25</span>
+  </div>
+  <div class="top-spacer"></div>
+  <span class="range-label">统计区间 <b id="rangeText">2026/08/14 – 2026/08/21</b></span>
+  <div class="timepick" id="timepick">
+    <button data-r="本账期" class="active" onclick="pickTime(this,'本账期','2026/08/14 – 2026/08/21')">本账期</button>
+    <button data-r="近7天" onclick="pickTime(this,'近 7 天','2026/08/19 – 2026/08/25')">近 7 天</button>
+    <button data-r="近30天" onclick="pickTime(this,'近 30 天','2026/07/27 – 2026/08/25')">近 30 天</button>
+    <button data-r="自定义" onclick="pickTime(this,'自定义','点击选择起止日期…')">自定义</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧导航 ============ -->
+  <aside class="sidebar">
+    <div class="nav-shop">
+      <div class="avatar">R</div>
+      <div>
+        <div class="n">Rumah Rapi Studio</div>
+        <div class="r">印尼站 · ID · 家居收纳</div>
+      </div>
+    </div>
+
+    <div class="nav-group p1">
+      <div class="g-title"><span class="k">01</span>账单与资金</div>
+      <div class="nav-item indent active" data-page="p-settle" onclick="go(this,'p-settle')"><span class="ic">🧾</span>结算单与账单</div>
+      <div class="nav-item indent" data-page="p-cash" onclick="go(this,'p-cash')"><span class="ic">💧</span>现金流与账期</div>
+      <div class="nav-item indent" data-page="p-diff" onclick="go(this,'p-diff')"><span class="ic">⚖️</span>差异台账</div>
+    </div>
+
+    <div class="nav-group p2">
+      <div class="g-title"><span class="k">02</span>经营诊断</div>
+      <div class="nav-item indent" data-page="p-profit" onclick="go(this,'p-profit')"><span class="ic">📈</span>利润诊断</div>
+      <div class="nav-item indent" data-page="p-attr" onclick="go(this,'p-attr')"><span class="ic">🎯</span>经营归因</div>
+    </div>
+
+    <div class="nav-group p3 nav-tool">
+      <div class="g-title"><span class="k">03</span>账单导出</div>
+      <div class="nav-item indent" data-page="p-export" onclick="go(this,'p-export')"><span class="ic">📤</span>账单导出</div>
+    </div>
+  </aside>
+
+  <!-- ============ 中间内容 ============ -->
+  <main class="content" id="content">
+    <!-- pages injected below -->
+  </main>
+
+  <!-- ============ 右侧常驻 AI ============ -->
+  <aside class="ai">
+    <div class="ai-head">
+      <div class="ai-id">
+        <div class="av">R</div>
+        <div>
+          <div class="nm">Rami</div>
+          <div class="rl" id="aiRole">你的账单与经营助手 · 数据均来自本店</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-body" id="aiBody">
+      <div class="msg bot">我是 <b>Rami</b>。这一页负责把每一笔结算讲清楚：为什么这笔比预期少，差额来自哪里，什么时候到账。可直接点击任意数据指标向我提问。</div>
+      <div class="ai-sugs" id="aiSugs"></div>
+    </div>
+    <div class="ai-input">
+      <textarea id="aiInput" placeholder="输入你的问题…"></textarea>
+      <button class="send" onclick="sendAI()">↑</button>
+    </div>
+  </aside>
+</div>
+
+<!-- ============ 明细抽屉 ============ -->
+<div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-h">
+    <div>
+      <h3 id="drawerTitle">数据明细</h3>
+      <div class="sub" id="drawerSub"></div>
+    </div>
+    <button class="x" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-b" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <button class="ask" onclick="askFromDrawer()">✦ 问 Rami 这项</button>
+    <button class="goto" onclick="gotoBackend()">↗ 打开 TTS 后台</button>
+  </div>
+</aside>
+
+<script>
+/* ============================================================
+   结算与资金中心 · TikTok Shop 印尼站 · 商家账单与经营分析原型
+   全部数据来自演示店铺 Rumah Rapi Studio · ID，统计区间 2026/08/14–2026/08/21
+   ============================================================ */
+
+/* -------- 悬浮问 AI 气泡组件 -------- */
+function aiWrap(question){
+  const q = question.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  return `<div class="ai-tip">
+      <span class="ask-mini" onclick="askAI('${q}');event.stopPropagation();">✦ 问 Rami</span>
+      <span class="detail-mini">点击查看账单详情</span>
+    </div>`;
+}
+
+/* -------- 页面模板 -------- */
+const PAGES = {
+
+/* ========== P1-1 结算单与账单 ========== */
+'p-settle': `
+<div class="page-head">
+  <span class="caliber-tag plat">● 平台口径 · 结算数据，权威可信</span>
+  <h1>结算单与账单</h1>
+  <p>交易与资金数据来自平台结算，以「结算单（Statement）」为核心归集。先看清本期应结算净额，再逐层拆开为什么销售额与到账金额不一致。</p>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi k-blue" onclick="openDetail('net')">
+    <span class="accent"></span>
+    <div class="lab">本期应结算净额 ${aiWrap('本期应结算净额是怎么算出来的')}</div>
+    <div class="val"><span class="cur">Rp</span>1.402.180.000</div>
+    <div class="sub">来自 6.976 笔已完成订单 · 结算口径</div>
+    ${'' }
+  </div>
+  <div class="kpi" onclick="openDetail('gmv')">
+    <span class="accent"></span>
+    <div class="lab">商品销售额 GMV ${aiWrap('GMV 环比上账期为什么涨了 12.4%')}</div>
+    <div class="val"><span class="cur">Rp</span>1.842.600.000</div>
+    <div class="sub"><span class="chip up">▲ 12.4%</span> 环比上账期</div>
+  </div>
+  <div class="kpi k-red" onclick="openDetail('fee')">
+    <span class="accent"></span>
+    <div class="lab">平台费用 ${aiWrap('平台费用的 3 项构成分别是多少')}</div>
+    <div class="val" style="color:var(--tt-red)">−<span class="cur">Rp</span>395.570.000</div>
+    <div class="sub">佣金 · 手续费 · 运费</div>
+  </div>
+  <div class="kpi k-red" onclick="openDetail('refund')">
+    <span class="accent"></span>
+    <div class="lab">退货退款 ${aiWrap('退款率 5.47% 和类目均值比高吗')}</div>
+    <div class="val" style="color:var(--tt-red)">−<span class="cur">Rp</span>44.850.000</div>
+    <div class="sub">382 笔 · 退款率 5.47%</div>
+  </div>
+  <div class="kpi" onclick="openDetail('reserve')">
+    <span class="accent"></span>
+    <div class="lab">结算预留 ${aiWrap('本期为什么有 45.240.000 的预留未到账')}</div>
+    <div class="val"><span class="cur">Rp</span>45.240.000</div>
+    <div class="sub">按退货率动态计提 · 窗口后释放</div>
+  </div>
+</div>
+
+<div class="section-title">销售额到实际到账的逐层扣减</div>
+<div class="card"><div class="card-b">
+  <div class="waterfall">
+    <div class="wf-row" onclick="openDetail('gmv')">
+      <div class="wf-name">商品销售额 GMV</div>
+      <div class="wf-bar-wrap"><div class="wf-bar total" style="width:100%"></div></div>
+      <div class="wf-amt pos">Rp 1.842.600.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('fee-comm')">
+      <div class="wf-name">平台佣金<small>类目基础佣金 ＋ 达人联盟分佣</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:5%"></div></div>
+      <div class="wf-amt neg">−Rp 92.130.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('fee-trans')">
+      <div class="wf-name">交易手续费<small>支付通道费 ＋ 平台交易服务费</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:13%"></div></div>
+      <div class="wf-amt neg">−Rp 238.950.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('fee-ship')">
+      <div class="wf-name">运费与运费差额<small>平台承运 ＋ 按实重补收</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:3.5%"></div></div>
+      <div class="wf-amt neg">−Rp 64.490.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('refund')">
+      <div class="wf-name">退货退款<small>交易冲减 · 非平台费用</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:2.4%"></div></div>
+      <div class="wf-amt neg">−Rp 44.850.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('pending')">
+      <div class="wf-name">在途待结算<small>订单在账期内尚未结算</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar pending" style="width:26%"></div></div>
+      <div class="wf-amt neg">−Rp 486.320.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('reserve')">
+      <div class="wf-name">结算预留<small>按退货率动态计提 · 窗口后释放</small></div>
+      <div class="wf-bar-wrap"><div class="wf-bar pending" style="width:2.4%"></div></div>
+      <div class="wf-amt neg">−Rp 45.240.000</div>
+    </div>
+    <div class="wf-row" onclick="openDetail('arrived')">
+      <div class="wf-name" style="color:var(--green)">本期实际到账</div>
+      <div class="wf-bar-wrap"><div class="wf-bar final" style="width:73.6%"></div></div>
+      <div class="wf-amt pos">Rp 1.356.940.000</div>
+    </div>
+  </div>
+  <div class="wf-formula">GMV − 平台佣金 − 交易手续费 − 运费 − 退货退款 − 在途待结算 − 结算预留 ＝ <b>实际到账</b></div>
+</div></div>
+
+<div class="section-title">结算单
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ 前往结算单后台</span>
+</div>
+<div class="card"><div class="card-b" style="padding-top:6px">
+  <table class="tbl">
+    <thead><tr><th>结算单号</th><th>订单数</th><th style="text-align:right">应结算</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr class="click" onclick="openStatement('STM-20260819-004')"><td class="mono">STM-20260819-004</td><td>2.184</td><td class="num">Rp 335.400.000</td><td><span class="st ok"><span class="d"></span>已到账</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260816-003')"><td class="mono">STM-20260816-003</td><td>2.007</td><td class="num">Rp 316.770.000</td><td><span class="st ok"><span class="d"></span>已到账</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260819-005')"><td class="mono">STM-20260819-005</td><td>1.462</td><td class="num">Rp 224.762.000</td><td><span class="st ing"><span class="d"></span>处理中</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260820-006')"><td class="mono">STM-20260820-006</td><td>1.043</td><td class="num">Rp 161.048.000</td><td><span class="st acc"><span class="d"></span>账期核算</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260818-007')"><td class="mono">STM-20260818-007</td><td>312</td><td class="num">Rp 48.298.000</td><td><span class="st frz"><span class="d"></span>冻结中</span></td></tr>
+      <tr class="click" onclick="openStatement('STM-20260814-008')"><td class="mono">STM-20260814-008</td><td>221</td><td class="num">Rp 34.112.000</td><td><span class="st fail"><span class="d"></span>打款失败</span></td></tr>
+    </tbody>
+  </table>
+</div></div>
+
+<div class="section-title">交易账单
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ 前往交易明细后台</span>
+</div>
+<div class="card"><div class="card-b" style="padding-top:6px">
+  <table class="tbl">
+    <thead><tr><th>订单号</th><th>商品</th><th style="text-align:right">收款</th><th style="text-align:right">费用</th><th style="text-align:right">结算</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr class="click" onclick="openOrder('IDN2608A2K9')"><td class="mono">IDN2608A2K9</td><td>桌面收纳盒 · 米白 M ×2</td><td class="num">Rp 298.000</td><td class="num neg">−Rp 59.680</td><td class="num">Rp 238.320</td><td><span class="st ok"><span class="d"></span>已到账</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608B7T3')"><td class="mono">IDN2608B7T3</td><td>折叠衣物挂袋 · 6 格 ×1</td><td class="num">Rp 189.000</td><td class="num neg">−Rp 39.240</td><td class="num">Rp 149.760</td><td><span class="st ok"><span class="d"></span>已到账</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608C5P1')"><td class="mono">IDN2608C5P1</td><td>抽屉分隔板 · 4 件套 ×3</td><td class="num">Rp 435.000</td><td class="num neg">−Rp 96.000</td><td class="num">Rp 339.000</td><td><span class="st ing"><span class="d"></span>处理中</span><span class="st warn">差异</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608D9M4')"><td class="mono">IDN2608D9M4</td><td>桌面收纳盒 · 深灰 L ×1</td><td class="num">Rp 168.000</td><td class="num neg">−Rp 35.880</td><td class="num">Rp 132.120</td><td><span class="st acc"><span class="d"></span>账期核算</span></td></tr>
+      <tr class="click" onclick="openOrder('IDN2608E1R7')"><td class="mono">IDN2608E1R7</td><td>布艺收纳篮 · 大号 ×1</td><td class="num">Rp 0</td><td class="num neg">−Rp 52.000</td><td class="num neg">−Rp 52.000</td><td><span class="st frz"><span class="d"></span>冻结中</span><span class="st warn">差异</span></td></tr>
+    </tbody>
+  </table>
+  <div class="hint">✅ 本期 6.976 笔订单已逐笔勾稽，3 类差异已归入差异台账。如对任一扣项存疑，点击对应订单向 Rami 提问。</div>
+</div></div>
+`,
+
+/* ========== P1-2 现金流与账期 ========== */
+'p-cash': `
+<div class="page-head">
+  <span class="caliber-tag plat">● 平台口径 · 结算数据，权威可信</span>
+  <h1>现金流与账期</h1>
+  <p>现金流是资金的「状态维度」——展示一笔货款从买家支付到进入银行账户所经历的各个状态，帮你判断什么时候能真正拿到钱。</p>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi k-green" onclick="openDetail('withdrawable')">
+    <span class="accent"></span>
+    <div class="lab">可提现金额 ${aiWrap('现在可提现的 412.180.000 包含哪些结算单')}</div>
+    <div class="val" style="color:var(--green)"><span class="cur">Rp</span>412.180.000</div>
+    <div class="sub">已解除预留 · 可发起提现</div>
+  </div>
+  <div class="kpi" onclick="openDetail('pending')">
+    <span class="accent"></span>
+    <div class="lab">待结算 / 在途 ${aiWrap('在途待结算的 486.320.000 预计什么时候到账')}</div>
+    <div class="val"><span class="cur">Rp</span>486.320.000</div>
+    <div class="sub">账期内 · 尚未结算</div>
+  </div>
+  <div class="kpi" onclick="openDetail('reserve')">
+    <span class="accent"></span>
+    <div class="lab">结算预留 ${aiWrap('结算预留是按什么比例计提的')}</div>
+    <div class="val"><span class="cur">Rp</span>45.240.000</div>
+    <div class="sub">按退货率计提 · 窗口后释放</div>
+  </div>
+  <div class="kpi" onclick="openDetail('arrived')">
+    <span class="accent"></span>
+    <div class="lab">已到账金额 ${aiWrap('已到账金额和应结算净额差在哪')}</div>
+    <div class="val"><span class="cur">Rp</span>1.356.940.000</div>
+    <div class="sub">进入绑定银行账户</div>
+  </div>
+</div>
+
+<div class="section-title">资金生命周期</div>
+<div class="card"><div class="card-b">
+  <div class="lifecycle">
+    <div class="lc-step" onclick="openDetail('paid')"><div class="node"></div><div class="lc-card"><div class="lc-lab">订单支付金额</div><div class="lc-val">Rp 1.842.600.000</div><div class="lc-note">买家已付款成交</div></div></div>
+    <div class="lc-step" onclick="openDetail('confirmed')"><div class="node"></div><div class="lc-card"><div class="lc-lab">已确认收入</div><div class="lc-val">Rp 1.402.180.000</div><div class="lc-note">确认收货 · 扣平台费用与退款</div></div></div>
+    <div class="lc-step" onclick="openDetail('pending')"><div class="node"></div><div class="lc-card"><div class="lc-lab">待结算 / 在途</div><div class="lc-val">Rp 486.320.000</div><div class="lc-note">账期内 · 尚未结算</div></div></div>
+    <div class="lc-step res" onclick="openDetail('reserve')"><div class="node"></div><div class="lc-card"><div class="lc-lab">结算预留</div><div class="lc-val">Rp 45.240.000</div><div class="lc-note">按退货率计提 · 窗口后释放</div></div></div>
+    <div class="lc-step done" onclick="openDetail('withdrawable')"><div class="node"></div><div class="lc-card"><div class="lc-lab">可提现金额</div><div class="lc-val">Rp 412.180.000</div><div class="lc-note">已解除预留 · 可发起提现</div></div></div>
+    <div class="lc-step done" onclick="openDetail('arrived')"><div class="node"></div><div class="lc-card"><div class="lc-lab">已到账金额</div><div class="lc-val">Rp 1.356.940.000</div><div class="lc-note">进入绑定银行账户</div></div></div>
+  </div>
+</div></div>
+
+<div class="section-title">账期与到账节奏</div>
+<div class="card"><div class="card-b">
+  <table class="tbl">
+    <thead><tr><th>结算规则项</th><th>印尼站配置</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>结算周期</td><td><b>T ＋ 7 天</b>（确认收货后）</td><td class="muted" style="color:var(--txt-2)">达人联盟订单额外 ＋2 天核算</td></tr>
+      <tr><td>结算币种</td><td><b>IDR（印尼盾 Rp）</b></td><td style="color:var(--txt-2)">千分位以「.」分隔，无小数位</td></tr>
+      <tr><td>提现方式</td><td><b>本地银行卡 · 电子钱包</b></td><td style="color:var(--txt-2)">支持 BCA / Mandiri / DANA / OVO</td></tr>
+      <tr><td>预留比例</td><td><b>按类目退货率动态计提</b></td><td style="color:var(--txt-2)">当前家居类 ≈ 应结算额 3.2%</td></tr>
+    </tbody>
+  </table>
+  <div class="hint">🌏 该表为「印尼站区域配置」，同一套结算模型换配置即可适配其他站点（税项、账期、提现方式随区域切换）。</div>
+</div></div>
+`,
+
+/* ========== P1-3 差异台账 ========== */
+'p-diff': `
+<div class="page-head">
+  <span class="caliber-tag plat">● 平台口径 · 结算数据，权威可信</span>
+  <h1>差异台账</h1>
+  <p>系统自动归集与预期不一致的扣项，逐笔可溯。每一条差异都能追到具体订单与判定依据，避免「钱少了却不知道少在哪」。</p>
+</div>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+  <div class="kpi k-red"><span class="accent"></span><div class="lab">本期差异总额 ${aiWrap('本期 3 类差异合计扣了多少钱')}</div><div class="val" style="color:var(--tt-red)">−<span class="cur">Rp</span>5.242.000</div><div class="sub">占应结算净额 0.37%</div></div>
+  <div class="kpi"><span class="accent"></span><div class="lab">待确认差异</div><div class="val"><span class="cur">Rp</span>1.284.000</div><div class="sub">1 类 · 可发起申诉</div></div>
+  <div class="kpi"><span class="accent"></span><div class="lab">已扣划差异</div><div class="val"><span class="cur">Rp</span>3.116.000</div><div class="sub">1 类 · 已完成扣划</div></div>
+</div>
+
+<div class="section-title">差异明细 <span class="desc">点击任意一条查看归集逻辑与关联订单。</span>
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ 前往差异申诉后台</span>
+</div>
+<div class="card"><div class="card-b">
+  <div class="ledger">
+    <div class="led-row" onclick="openDetail('diff-ship')">
+      <div class="lt">运费差额补收<small>32 笔订单按实际重量补收运费，与下单预估存在差额。</small></div>
+      <div class="la">−Rp 1.284.000</div>
+      <div><span class="st acc"><span class="d"></span>待确认</span></div>
+    </div>
+    <div class="led-row" onclick="openDetail('diff-return')">
+      <div class="lt">售后退货担责<small>9 笔判定商家担责，运费与商品款由本店承担。</small></div>
+      <div class="la">−Rp 3.116.000</div>
+      <div><span class="st frz"><span class="d"></span>已扣划</span></div>
+    </div>
+    <div class="led-row" onclick="openDetail('diff-fx')">
+      <div class="lt">汇率折算差<small>跨境结算按入账日汇率折算，与下单日存在浮动差。</small></div>
+      <div class="la">−Rp 842.000</div>
+      <div><span class="st ing"><span class="d"></span>系统自动</span></div>
+    </div>
+  </div>
+  <div class="hint">💡 对任一差异存疑，可点击「向 Rami 追问」或发起申诉，系统会附上关联订单与判定快照。</div>
+</div></div>
+`,
+
+/* ========== P2-1 利润诊断 ========== */
+'p-profit': `
+<div class="page-head">
+  <span class="caliber-tag biz">● 经营口径 · 含商家自填成本，用于决策</span>
+  <h1>利润诊断</h1>
+  <p>平台只结算「货款」，不知道你的进货成本与广告投放。补齐这两项后，才能从「结算利润」看到真正落袋的「净利润」。</p>
+</div>
+
+<div class="completeness">
+  <div class="ring"><i>72%</i></div>
+  <div class="ct">数据完整度 <b>72%</b>：平台交易与费用数据已 100% 接入；<b>商品成本</b>已填 68%，<b>广告花费</b>已自动接入。补齐剩余成本后利润诊断将更准确。</div>
+  <button class="fix" onclick="openDetail('completeness')">去补齐成本 →</button>
+</div>
+
+<div class="caliber-2">
+  <div class="cal-card plat" onclick="openDetail('profit-plat')">
+    <div class="tag">平台口径 · 结算利润</div>
+    <div class="big"><span class="cur">Rp</span>1.402.180.000</div>
+    <div class="rate">＝ 应结算净额 · 仅扣平台费用与退款，<b>未含</b>进货成本与广告费</div>
+  </div>
+  <div class="cal-card real" onclick="openDetail('profit-real')">
+    <div class="tag">经营口径 · 真实净利润 ${aiWrap('真实净利润为什么只有结算额的两成')}</div>
+    <div class="big" style="color:var(--green)"><span class="cur">Rp</span>318.000.000</div>
+    <div class="rate">真实净利率 <b>17.3%</b> · 目标区间 15%～20% <span class="chip flat" style="margin-left:6px">达标</span></div>
+  </div>
+</div>
+
+<div class="section-title">从结算额到净利润</div>
+<div class="card"><div class="card-b">
+  <div class="waterfall">
+    <div class="wf-row" onclick="openDetail('profit-plat')"><div class="wf-name">平台结算净额</div><div class="wf-bar-wrap"><div class="wf-bar total" style="width:100%"></div></div><div class="wf-amt pos">Rp 1.402.180.000</div></div>
+    <div class="wf-row" onclick="openDetail('cogs')"><div class="wf-name">商品成本 COGS<small>商家自填 · 已填 68%（按类目均值补齐）</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:62%"></div></div><div class="wf-amt neg">−Rp 868.000.000</div></div>
+    <div class="wf-row" onclick="openDetail('adcost')"><div class="wf-name">广告花费<small>平台投放数据 · 自动接入</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:5.9%"></div></div><div class="wf-amt neg">−Rp 82.900.000</div></div>
+    <div class="wf-row" onclick="openDetail('creator-cost')"><div class="wf-name">达人分佣支出<small>已含平台佣金 · 联盟结算</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:4.2%"></div></div><div class="wf-amt neg">−Rp 58.400.000</div></div>
+    <div class="wf-row" onclick="openDetail('opcost')"><div class="wf-name">其他运营成本<small>包材 · 仓储 · 客服等</small></div><div class="wf-bar-wrap"><div class="wf-bar deduct" style="width:5.3%"></div></div><div class="wf-amt neg">−Rp 74.880.000</div></div>
+    <div class="wf-row" onclick="openDetail('profit-real')"><div class="wf-name" style="color:var(--green)">真实净利润</div><div class="wf-bar-wrap"><div class="wf-bar final" style="width:22.7%"></div></div><div class="wf-amt pos">Rp 318.000.000</div></div>
+  </div>
+  <div class="wf-formula">结算净额 − 商品成本 − 广告花费 − 达人分佣 − 其他运营成本 ＝ <b>真实净利润</b>（净利率 17.3%）</div>
+</div></div>
+
+<div class="section-title">经营健康分</div>
+<div class="card"><div class="card-b">
+  <div class="health">
+    <div class="health-score"><i><span class="sc">82</span><span class="sl">健康 · 良好</span></i></div>
+    <div class="health-items">
+      <div class="health-item"><span class="hl">真实净利率 17.3%</span><span class="hv">达标 <span class="tick good">优</span></span></div>
+      <div class="health-item"><span class="hl">退货退款率 5.47%</span><span class="hv">优于均值 <span class="tick good">优</span></span></div>
+      <div class="health-item"><span class="hl">广告 ROI 6.4</span><span class="hv">高于同行 <span class="tick good">优</span></span></div>
+      <div class="health-item"><span class="hl">数据完整度 72%</span><span class="hv">待补齐 <span class="tick mid">中</span></span></div>
+      <div class="health-item"><span class="hl">现金周转 T＋7</span><span class="hv">正常 <span class="tick good">优</span></span></div>
+      <div class="health-item"><span class="hl">差异占比 0.37%</span><span class="hv">可控 <span class="tick good">优</span></span></div>
+    </div>
+  </div>
+  <div class="hint">💡 健康分由利润、周转、风险、合规四维加权计算。补齐商品成本后分数可再提升，${aiWrap('经营健康分 82 分主要被哪一项拖累')}点击查看每一项的评分依据。</div>
+</div></div>
+
+<div class="section-title">关键经营指标 · 对标基准线</div>
+<div class="card"><div class="card-b">
+  <div class="bench">
+    <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span>退货退款率</span><span>本店 <b style="color:var(--green)">5.47%</b> · 类目基准 5.9%</span></div>
+    <div class="bench-track"><div class="bench-fill g" style="width:46.4%"></div><div class="bench-mark" data-l="类目基准 5.9%" style="left:50%"></div></div>
+    <div class="bench-legend"><span>0%</span><span>越低越好 · 本店优于基准</span><span>11.8%</span></div>
+  </div>
+  <div class="bench" style="margin-top:22px">
+    <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span>广告 ROI</span><span>本店 <b style="color:var(--green)">6.4</b> · 同行基准 4.8</span></div>
+    <div class="bench-track"><div class="bench-fill g" style="width:64%"></div><div class="bench-mark" data-l="同行基准 4.8" style="left:48%"></div></div>
+    <div class="bench-legend"><span>0</span><span>越高越好 · 本店高于同行</span><span>10</span></div>
+  </div>
+  <div class="hint">📊 基准线取印尼家居类目近 30 天中位数。退货率越低越好、ROI 越高越好，本店两项均优于同行。${aiWrap('本店退货率和 ROI 领先同行的原因是什么')}</div>
+</div></div>
+
+<div class="section-title">关键经营指标</div>
+<div class="kpi-grid">
+  <div class="kpi" onclick="openDetail('aov')"><span class="accent"></span><div class="lab">客单价 AOV ${aiWrap('客单价环比涨 3.1% 是什么带动的')}</div><div class="val"><span class="cur">Rp</span>264.140</div><div class="sub"><span class="chip up">▲ 3.1%</span> 环比</div></div>
+  <div class="kpi" onclick="openDetail('refund')"><span class="accent"></span><div class="lab">退货退款率 ${aiWrap('退货率和类目均值比处于什么水平')}</div><div class="val">5.47%</div><div class="sub"><span class="chip flat">持平</span> 类目均值 5.9%</div></div>
+  <div class="kpi k-green" onclick="openDetail('roi')"><span class="accent"></span><div class="lab">广告 ROI ${aiWrap('广告 ROI 6.4 在类目里算高吗')}</div><div class="val" style="color:var(--green)">6.4</div><div class="sub">广告费占 GMV 4.5%</div></div>
+  <div class="kpi" onclick="openDetail('content')"><span class="accent"></span><div class="lab">内容场 GMV 占比 ${aiWrap('内容场 GMV 占比 68.2% 说明什么')}</div><div class="val">68.2%</div><div class="sub">短视频 ＋ 直播带动</div></div>
+</div>
+`,
+
+/* ========== P2-2 经营归因 ========== */
+'p-attr': `
+<div class="page-head">
+  <span class="caliber-tag biz">● 经营口径 · 含商家自填成本，用于决策</span>
+  <h1>经营归因</h1>
+  <p>钱到底是谁挣来的、又是被谁摊薄的？从「渠道 / 达人 / 类目」三个维度拆解本期 GMV 与利润贡献，找到下一步该加投还是该止损。</p>
+</div>
+
+<div class="section-title">渠道贡献 <span class="desc">按内容场与货架场拆分 GMV。</span></div>
+<div class="card"><div class="card-b">
+  <div class="attr">
+    <div class="attr-row" onclick="openDetail('ch-video')"><div class="an">短视频</div><div class="attr-bar-wrap"><div class="attr-bar" style="width:41%"></div></div><div class="attr-val">Rp 755.000.000<small>占 41.0%</small></div></div>
+    <div class="attr-row" onclick="openDetail('ch-live')"><div class="an">直播</div><div class="attr-bar-wrap"><div class="attr-bar b" style="width:27.2%"></div></div><div class="attr-val">Rp 501.000.000<small>占 27.2%</small></div></div>
+    <div class="attr-row" onclick="openDetail('ch-mall')"><div class="an">商城货架</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:23.8%"></div></div><div class="attr-val">Rp 438.600.000<small>占 23.8%</small></div></div>
+    <div class="attr-row" onclick="openDetail('ch-card')"><div class="an">商品卡</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:8%"></div></div><div class="attr-val">Rp 148.000.000<small>占 8.0%</small></div></div>
+  </div>
+  <div class="hint">💡 内容场（短视频＋直播）合计 <b>68.2%</b>，是本期增长主引擎；货架场利润率更高，建议承接内容场溢出流量。</div>
+</div></div>
+
+<div class="section-title">达人贡献 <span class="desc">按合作达人拆分带货 GMV 与分佣成本，点击查看 ROI。</span>
+  <span class="backend-link" style="margin-left:auto" onclick="gotoBackend()">↗ 前往达人合作后台</span>
+</div>
+<div class="card"><div class="card-b" style="padding-top:6px">
+  <table class="tbl">
+    <thead><tr><th>达人</th><th style="text-align:right">带货 GMV</th><th style="text-align:right">分佣支出</th><th style="text-align:right">分佣率</th><th style="text-align:right">带货 ROI</th></tr></thead>
+    <tbody>
+      <tr class="click" onclick="openDetail('cr-rumahrapi')"><td>@rumahrapi<br><small style="color:var(--txt-3)">品牌自播 · 短视频</small></td><td class="num">Rp 486.000.000</td><td class="num neg">−Rp 19.400.000</td><td class="num">4.0%</td><td class="num" style="color:var(--green)">25.1</td></tr>
+      <tr class="click" onclick="openDetail('cr-beautyzone')"><td>@beautyzone<br><small style="color:var(--txt-3)">头部达人 · 直播</small></td><td class="num">Rp 312.000.000</td><td class="num neg">−Rp 24.960.000</td><td class="num">8.0%</td><td class="num" style="color:var(--green)">12.5</td></tr>
+      <tr class="click" onclick="openDetail('cr-gayahidup')"><td>@gayahidup<br><small style="color:var(--txt-3)">腰部达人 · 直播</small></td><td class="num">Rp 158.000.000</td><td class="num neg">−Rp 14.040.000</td><td class="num">8.9%</td><td class="num" style="color:var(--amber)">6.2</td></tr>
+    </tbody>
+  </table>
+  <div class="hint">⚠️ @gayahidup 分佣率最高但 ROI 最低，建议复盘选品匹配度；@rumahrapi 自播 ROI 最优，可加大扶持。</div>
+</div></div>
+
+<div class="section-title">类目贡献 <span class="desc">按商品类目拆分利润率。</span></div>
+<div class="card"><div class="card-b">
+  <div class="attr">
+    <div class="attr-row" onclick="openDetail('cat-box')"><div class="an">桌面收纳</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:100%"></div></div><div class="attr-val" style="color:var(--green)">净利率 21.4%<small>GMV Rp 682.000.000</small></div></div>
+    <div class="attr-row" onclick="openDetail('cat-hang')"><div class="an">衣物收纳</div><div class="attr-bar-wrap"><div class="attr-bar g" style="width:84%"></div></div><div class="attr-val" style="color:var(--green)">净利率 18.0%<small>GMV Rp 524.000.000</small></div></div>
+    <div class="attr-row" onclick="openDetail('cat-basket')"><div class="an">布艺收纳</div><div class="attr-bar-wrap"><div class="attr-bar" style="width:52%"></div></div><div class="attr-val" style="color:var(--tt-red)">净利率 11.1%<small>GMV Rp 396.600.000</small></div></div>
+    <div class="attr-row" onclick="openDetail('cat-other')"><div class="an">其他</div><div class="attr-bar-wrap"><div class="attr-bar" style="width:60%"></div></div><div class="attr-val">净利率 12.8%<small>GMV Rp 240.000.000</small></div></div>
+  </div>
+  <div class="hint">💡 桌面收纳是利润担当（21.4%）；布艺收纳退货率偏高拉低利润，建议优化商品详情与尺寸说明。</div>
+</div></div>
+`,
+
+/* ========== 工具 · 账单导出 ========== */
+'p-export': `
+<div class="page-head">
+  <h1>账单导出</h1>
+  <p>作为独立工具，按需导出结算单、交易明细、差异台账与利润报表。可选时间窗口与字段口径，导出即附带勾稽关系，方便对账与报税。</p>
+</div>
+
+<div class="section-title">选择导出内容</div>
+<div class="card"><div class="card-b">
+  <div class="export-grid">
+    <div class="exp-card" onclick="doExport('结算单汇总')">
+      <h4>🧾 结算单汇总</h4>
+      <p>按账期归集的结算单，含应结算、实际到账与状态。</p>
+      <div class="meta"><span>6 张结算单</span><span>区间 2026/08/14–08/21</span></div>
+      <button class="exp-btn">↓ 导出 Excel / CSV</button>
+    </div>
+    <div class="exp-card" onclick="doExport('交易明细')">
+      <h4>📋 交易明细账单</h4>
+      <p>订单维度逐笔收款、费用、结算与来源渠道。</p>
+      <div class="meta"><span>6.976 笔订单</span><span>含勾稽关系</span></div>
+      <button class="exp-btn">↓ 导出 Excel / CSV</button>
+    </div>
+    <div class="exp-card" onclick="doExport('差异台账')">
+      <h4>⚖️ 差异台账</h4>
+      <p>运费差额、退货担责、汇率折算差等异常扣项。</p>
+      <div class="meta"><span>3 类差异</span><span>附判定快照</span></div>
+      <button class="exp-btn">↓ 导出 Excel / CSV</button>
+    </div>
+    <div class="exp-card" onclick="doExport('利润报表')">
+      <h4>📈 利润报表</h4>
+      <p>结算额到净利润的完整瀑布，含成本与广告口径。</p>
+      <div class="meta"><span>经营口径</span><span>含完整度标注</span></div>
+      <button class="exp-btn">↓ 导出 Excel / PDF</button>
+    </div>
+  </div>
+  <div class="hint">🌏 导出币种默认 IDR（Rp），可切换按当日汇率折算为 USD;所有金额均标注平台口径 / 经营口径，报税与内部核算不混用。</div>
+</div></div>
+`
+};
+
+/* -------- 明细数据库（点击弹出抽屉） -------- */
+const DETAILS = {
+  net:{t:'本期应结算净额',s:'Rp 1.402.180.000 · 结算口径',rows:[
+    ['商品销售额 GMV','Rp 1.842.600.000'],['− 平台费用','−Rp 395.570.000',1],['− 退货退款','−Rp 44.850.000',1],
+    ['＝ 应结算净额','Rp 1.402.180.000'],['来源订单','6.976 笔已完成']]},
+  gmv:{t:'商品销售额 GMV',s:'Rp 1.842.600.000 · 环比 ▲12.4%',rows:[
+    ['短视频渠道','Rp 755.000.000'],['直播渠道','Rp 501.000.000'],['商城货架','Rp 438.600.000'],['商品卡','Rp 148.000.000'],['合计','Rp 1.842.600.000']]},
+  fee:{t:'平台费用构成',s:'−Rp 395.570.000',rows:[
+    ['平台佣金（类目＋达人联盟）','−Rp 92.130.000',1],['交易手续费（支付＋服务费）','−Rp 238.950.000',1],['运费与运费差额','−Rp 64.490.000',1],['合计','−Rp 395.570.000',1]]},
+  'fee-comm':{t:'平台佣金',s:'−Rp 92.130.000',rows:[['类目基础佣金','−Rp 63.730.000',1],['达人联盟分佣','−Rp 28.400.000',1],['合计','−Rp 92.130.000',1]]},
+  'fee-trans':{t:'交易手续费',s:'−Rp 238.950.000',rows:[['支付通道费','−Rp 147.410.000',1],['平台交易服务费','−Rp 91.540.000',1],['合计','−Rp 238.950.000',1]]},
+  'fee-ship':{t:'运费与运费差额',s:'−Rp 64.490.000',rows:[['平台承运基础运费','−Rp 63.206.000',1],['按实重补收差额','−Rp 1.284.000',1],['合计','−Rp 64.490.000',1]]},
+  refund:{t:'退货退款',s:'−Rp 44.850.000 · 382 笔 · 5.47%',rows:[['整单退款','−Rp 31.200.000',1],['部分退款','−Rp 9.540.000',1],['运费退回','−Rp 4.110.000',1],['退款笔数','382 笔'],['退款率','5.47%（类目均值 5.9%）']]},
+  reserve:{t:'结算预留',s:'Rp 45.240.000 · 窗口后释放',rows:[['计提基数','应结算净额'],['计提比例','约 3.2%（按类目退货率动态）'],['预计释放','账期窗口结束后 T＋7'],['当前预留','Rp 45.240.000']]},
+  pending:{t:'在途待结算',s:'Rp 486.320.000',rows:[['处理中结算单','Rp 224.762.000'],['账期核算中','Rp 161.048.000'],['冻结中','Rp 48.298.000'],['打款失败待重试','Rp 34.112.000'],['其他在途','Rp 18.100.000'],['合计','Rp 486.320.000']]},
+  arrived:{t:'本期实际到账',s:'Rp 1.356.940.000',rows:[['已到账结算单','STM-…004 / …003 等 2 张'],['进入银行账户','Rp 1.356.940.000'],['绑定账户','BCA ****3271']]},
+  withdrawable:{t:'可提现金额',s:'Rp 412.180.000',rows:[['已解除预留金额','Rp 412.180.000'],['可提现结算单','2 张'],['提现方式','BCA / Mandiri / DANA / OVO'],['预计到账','发起后 1–2 工作日']]},
+  paid:{t:'订单支付金额',s:'Rp 1.842.600.000',rows:[['买家已付款成交','Rp 1.842.600.000'],['成交订单','6.976 笔']]},
+  confirmed:{t:'已确认收入',s:'Rp 1.402.180.000',rows:[['确认收货','Rp 1.842.600.000'],['− 平台费用','−Rp 395.570.000',1],['− 退货退款','−Rp 44.850.000',1],['＝ 已确认','Rp 1.402.180.000']]},
+  'diff-ship':{t:'运费差额补收',s:'−Rp 1.284.000 · 待确认',rows:[['关联订单','32 笔'],['判定依据','按揽收实重重算运费'],['与下单预估差额','−Rp 1.284.000',1],['处理状态','待确认 · 可申诉']]},
+  'diff-return':{t:'售后退货担责',s:'−Rp 3.116.000 · 已扣划',rows:[['关联订单','9 笔'],['判定','商家担责（商品瑕疵/描述不符）'],['退回运费','−Rp 936.000',1],['商品款','−Rp 2.180.000',1],['合计','−Rp 3.116.000',1]]},
+  'diff-fx':{t:'汇率折算差',s:'−Rp 842.000 · 系统自动',rows:[['折算规则','按入账日中间价折算'],['下单日汇率','1 USD ≈ 16.290 IDR'],['入账日汇率','1 USD ≈ 16.320 IDR'],['折算差额','−Rp 842.000',1]]},
+  completeness:{t:'数据完整度 72%',s:'补齐后利润诊断更准确',rows:[['平台交易与费用','已接入 100%'],['广告花费','已自动接入 100%'],['商品成本 COGS','已填 68%'],['未填 SKU','以类目均值补齐'],['建议','补齐剩余 32% 成本']]},
+  'profit-plat':{t:'平台口径 · 结算利润',s:'Rp 1.402.180.000',rows:[['来源','平台结算净额'],['已扣','平台费用＋退货退款'],['未扣','进货成本＋广告费＋运营'],['说明','平台不掌握你的成本']]},
+  'profit-real':{t:'经营口径 · 真实净利润',s:'Rp 318.000.000 · 净利率 17.3%',rows:[['结算净额','Rp 1.402.180.000'],['− 商品成本','−Rp 868.000.000',1],['− 广告花费','−Rp 82.900.000',1],['− 达人分佣','−Rp 58.400.000',1],['− 其他运营','−Rp 74.880.000',1],['＝ 净利润','Rp 318.000.000']]},
+  cogs:{t:'商品成本 COGS',s:'−Rp 868.000.000 · 已填 68%',rows:[['已填 SKU 成本','−Rp 590.240.000',1],['未填 SKU（类目均值补齐）','−Rp 277.760.000',1],['合计','−Rp 868.000.000',1],['提示','补齐可提升利润精度']]},
+  adcost:{t:'广告花费',s:'−Rp 82.900.000 · 自动接入',rows:[['视频广告','−Rp 48.600.000',1],['直播推广','−Rp 26.300.000',1],['商城广告','−Rp 8.000.000',1],['广告 ROI','6.4'],['占 GMV','4.5%']]},
+  'creator-cost':{t:'达人分佣支出',s:'−Rp 58.400.000',rows:[['@rumahrapi','−Rp 19.400.000',1],['@beautyzone','−Rp 24.960.000',1],['@gayahidup','−Rp 14.040.000',1],['合计','−Rp 58.400.000',1]]},
+  opcost:{t:'其他运营成本',s:'−Rp 74.880.000',rows:[['包材','−Rp 21.400.000',1],['仓储','−Rp 32.180.000',1],['客服与售后','−Rp 21.300.000',1],['合计','−Rp 74.880.000',1]]},
+  aov:{t:'客单价 AOV',s:'Rp 264.140 · 环比 ▲3.1%',rows:[['本期 AOV','Rp 264.140'],['上账期 AOV','Rp 256.200'],['环比','▲ 3.1%'],['带动因素','套装组合＋满减']]},
+  roi:{t:'广告 ROI',s:'6.4',rows:[['广告带来 GMV','Rp 530.560.000'],['广告花费','Rp 82.900.000'],['ROI','6.4'],['类目参考','4.5–5.5']]},
+  content:{t:'内容场 GMV 占比',s:'68.2%',rows:[['短视频','Rp 755.000.000'],['直播','Rp 501.000.000'],['内容场合计','Rp 1.256.000.000'],['占总 GMV','68.2%']]},
+  'ch-video':{t:'短视频渠道',s:'Rp 755.000.000 · 占 41.0%',rows:[['GMV','Rp 755.000.000'],['订单数','2.860 笔'],['净利率','19.2%']]},
+  'ch-live':{t:'直播渠道',s:'Rp 501.000.000 · 占 27.2%',rows:[['GMV','Rp 501.000.000'],['订单数','1.910 笔'],['净利率','14.8%']]},
+  'ch-mall':{t:'商城货架',s:'Rp 438.600.000 · 占 23.8%',rows:[['GMV','Rp 438.600.000'],['订单数','1.680 笔'],['净利率','22.6%']]},
+  'ch-card':{t:'商品卡',s:'Rp 148.000.000 · 占 8.0%',rows:[['GMV','Rp 148.000.000'],['订单数','526 笔'],['净利率','20.1%']]},
+  'cr-rumahrapi':{t:'@rumahrapi',s:'带货 GMV Rp 486.000.000',rows:[['带货 GMV','Rp 486.000.000'],['分佣支出','−Rp 19.400.000',1],['分佣率','4.0%'],['带货 ROI','25.1'],['建议','ROI 最优 · 加大扶持']]},
+  'cr-beautyzone':{t:'@beautyzone',s:'带货 GMV Rp 312.000.000',rows:[['带货 GMV','Rp 312.000.000'],['分佣支出','−Rp 24.960.000',1],['分佣率','8.0%'],['带货 ROI','12.5']]},
+  'cr-gayahidup':{t:'@gayahidup',s:'带货 GMV Rp 158.000.000',rows:[['带货 GMV','Rp 158.000.000'],['分佣支出','−Rp 14.040.000',1],['分佣率','8.9%'],['带货 ROI','6.2'],['建议','ROI 偏低 · 复盘选品']]},
+  'cat-box':{t:'桌面收纳',s:'净利率 21.4%',rows:[['GMV','Rp 682.000.000'],['净利率','21.4%'],['退货率','4.1%'],['评价','利润担当']]},
+  'cat-hang':{t:'衣物收纳',s:'净利率 18.0%',rows:[['GMV','Rp 524.000.000'],['净利率','18.0%'],['退货率','5.2%']]},
+  'cat-basket':{t:'布艺收纳',s:'净利率 11.1%',rows:[['GMV','Rp 396.600.000'],['净利率','11.1%'],['退货率','8.9%'],['问题','退货率偏高拉低利润']]},
+  'cat-other':{t:'其他类目',s:'净利率 12.8%',rows:[['GMV','Rp 240.000.000'],['净利率','12.8%']]}
+};
+
+/* 结算单明细 */
+const STATEMENTS = {
+  'STM-20260819-004':{orders:'2.184',amt:'Rp 335.400.000',st:'已到账',rows:[['商品销售额','Rp 441.300.000'],['− 平台费用','−Rp 94.700.000',1],['− 退货退款','−Rp 11.200.000',1],['＝ 应结算','Rp 335.400.000'],['到账时间','2026/08/22'],['到账账户','BCA ****3271']]},
+  'STM-20260816-003':{orders:'2.007',amt:'Rp 316.770.000',st:'已到账',rows:[['商品销售额','Rp 417.100.000'],['− 平台费用','−Rp 89.630.000',1],['− 退货退款','−Rp 10.700.000',1],['＝ 应结算','Rp 316.770.000'],['到账时间','2026/08/19']]},
+  'STM-20260819-005':{orders:'1.462',amt:'Rp 224.762.000',st:'处理中',rows:[['商品销售额','Rp 296.400.000'],['− 平台费用','−Rp 63.638.000',1],['− 退货退款','−Rp 8.000.000',1],['＝ 应结算','Rp 224.762.000'],['预计到账','2026/08/26']]},
+  'STM-20260820-006':{orders:'1.043',amt:'Rp 161.048.000',st:'账期核算',rows:[['商品销售额','Rp 212.400.000'],['− 平台费用','−Rp 45.552.000',1],['− 退货退款','−Rp 5.800.000',1],['＝ 应结算','Rp 161.048.000'],['状态','账期内核算中']]},
+  'STM-20260818-007':{orders:'312',amt:'Rp 48.298.000',st:'冻结中',rows:[['商品销售额','Rp 63.700.000'],['− 平台费用','−Rp 13.662.000',1],['− 退货退款','−Rp 1.740.000',1],['＝ 应结算','Rp 48.298.000'],['冻结原因','关联差异订单待核']]},
+  'STM-20260814-008':{orders:'221',amt:'Rp 34.112.000',st:'打款失败',rows:[['应结算','Rp 34.112.000'],['失败原因','银行账户信息校验未通过'],['建议','更新提现账户后重试'],['重试入口','提现设置 → 银行卡']]}
+};
+
+/* 订单明细 */
+const ORDERS = {
+  'IDN2608A2K9':{p:'桌面收纳盒 · 米白 M',src:'短视频',rows:[['收款','Rp 298.000'],['平台佣金','−Rp 11.920',1],['交易手续费','−Rp 38.740',1],['运费','−Rp 9.020',1],['结算','Rp 238.320'],['状态','已到账']]},
+  'IDN2608B7T3':{p:'折叠衣物挂袋 · 6 格',src:'商城',rows:[['收款','Rp 189.000'],['平台佣金','−Rp 7.560',1],['交易手续费','−Rp 24.570',1],['运费','−Rp 7.110',1],['结算','Rp 149.760'],['状态','已到账']]},
+  'IDN2608C5P1':{p:'抽屉分隔板 · 4 件套',src:'直播',rows:[['收款','Rp 435.000'],['平台佣金（含达人分佣）','−Rp 43.500',1],['交易手续费','−Rp 43.500',1],['运费','−Rp 9.000',1],['结算','Rp 339.000'],['差异提示','运费差额补收待确认'],['状态','处理中 · 差异']]},
+  'IDN2608D9M4':{p:'桌面收纳盒 · 深灰 L',src:'短视频',rows:[['收款','Rp 168.000'],['平台佣金','−Rp 6.720',1],['交易手续费','−Rp 21.840',1],['运费','−Rp 7.320',1],['结算','Rp 132.120'],['状态','账期核算']]},
+  'IDN2608E1R7':{p:'布艺收纳篮 · 大号',src:'直播',rows:[['收款','Rp 0（已整单退款）'],['退回运费（商家担责）','−Rp 52.000',1],['结算','−Rp 52.000',1],['差异','售后退货担责'],['状态','冻结中 · 差异']]}
+};
+
+/* -------- AI 建议问题（随所在页面切换） -------- */
+const SUGS = {
+  recon:['本期为什么有 45.240.000 的预留未到账','平台费用和退货退款分别是多少','哪些订单结算为负，分别是什么原因','STM-20260814-008 为什么打款失败'],
+  biz:['真实净利润为什么只有结算额的两成','哪个渠道的净利率最高','@gayahidup 的 ROI 为什么偏低','布艺收纳类目该不该继续加投']
+};
+
+/* ============ 交互逻辑 ============ */
+let curRole='recon';
+
+function go(el,page){
+  document.querySelectorAll('.nav-item').forEach(n=>{n.classList.remove('active','blue');});
+  el.classList.add('active');
+  if(page==='p-profit'||page==='p-attr'){el.classList.add('blue');}
+  document.getElementById('content').innerHTML = `<div class="page show" id="${page}">${PAGES[page]}</div>`;
+  window.scrollTo(0,0);
+  // 按页面切换 Rami 的建议问题（同一个助手，不分角色 Tab）
+  setContext(page==='p-profit'||page==='p-attr' ? 'biz' : 'recon');
+  animateBars();
+}
+
+function animateBars(){
+  // 触发过渡动画
+  requestAnimationFrame(()=>{document.querySelectorAll('.wf-bar,.attr-bar').forEach(b=>{const w=b.style.width;b.style.width='0';requestAnimationFrame(()=>b.style.width=w);});});
+}
+
+function pickTime(el,label,range){
+  document.querySelectorAll('#timepick button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('rangeText').textContent = range;
+  toast(`已切换统计区间：${label}（演示数据以本账期为准）`);
+}
+
+/* ---- 抽屉 ---- */
+let lastDrawerTitle='';
+function drawerRows(rows){
+  return rows.map(r=>`<div class="det-line"><div class="dl-l">${r[0]}</div><div class="dl-v ${r[2]?'neg':''}">${r[1]}</div></div>`).join('');
+}
+function showDrawer(title,sub,html){
+  lastDrawerTitle=title;
+  document.getElementById('drawerTitle').textContent=title;
+  document.getElementById('drawerSub').textContent=sub;
+  document.getElementById('drawerBody').innerHTML=html;
+  document.getElementById('drawer').classList.add('show');
+  document.getElementById('drawerMask').classList.add('show');
+}
+function openDetail(key){
+  const d=DETAILS[key]; if(!d)return;
+  showDrawer(d.t,d.s,drawerRows(d.rows));
+}
+function openStatement(id){
+  const s=STATEMENTS[id];
+  showDrawer(id,`结算单 · ${s.orders} 笔订单 · 应结算 ${s.amt}`,
+    `<div style="margin-bottom:12px"><span class="st ${stCls(s.st)}"><span class="d"></span>${s.st}</span></div>`+drawerRows(s.rows));
+}
+function openOrder(id){
+  const o=ORDERS[id];
+  showDrawer(id,`${o.p} · 订单结算明细`,drawerRows(o.rows));
+}
+function stCls(t){return {'已到账':'ok','处理中':'ing','账期核算':'acc','冻结中':'frz','打款失败':'fail'}[t]||'ing';}
+function closeDrawer(){document.getElementById('drawer').classList.remove('show');document.getElementById('drawerMask').classList.remove('show');}
+function gotoBackend(){toast('正在跳转「数据明细后台」…（演示环境：此处对接商家中心结算后台）');}
+function askFromDrawer(){askAI(`帮我解释一下「${lastDrawerTitle}」这个数据`);closeDrawer();}
+
+/* ---- AI 面板 ---- */
+function setContext(ctx){
+  curRole=ctx;
+  document.getElementById('aiRole').textContent = '你的账单与经营助手 · 数据均来自本店';
+  renderSugs();
+}
+function renderSugs(){
+  document.getElementById('aiSugs').innerHTML =
+    SUGS[curRole].map(q=>`<button class="ai-sug" onclick="askAI('${q.replace(/'/g,"\\'")}')">${q}</button>`).join('');
+}
+function pushMsg(text,who){
+  const b=document.getElementById('aiBody');
+  const el=document.createElement('div');
+  el.className='msg '+who; el.innerHTML=text;
+  b.insertBefore(el, document.getElementById('aiSugs'));
+  b.scrollTop=b.scrollHeight;
+}
+const ANSWERS={
+  '本期为什么有 45.240.000 的预留未到账':'本期结算预留 <b>Rp 45.240.000</b>,是平台按你所在<b>家居类目退货率</b>动态计提的风险准备金，约为应结算净额的 3.2%。它不是被扣掉，而是<b>暂押</b>——账期窗口结束（T＋7）且退货窗口关闭后会自动释放到可提现余额。',
+  '平台费用和退货退款分别是多少':'本期<b>平台费用 −Rp 395.570.000</b>（佣金 92.130.000 ＋ 手续费 238.950.000 ＋ 运费 64.490.000）；<b>退货退款 −Rp 44.850.000</b>（382 笔，退款率 5.47%,略低于类目均值 5.9%）。两项合计从 GMV 中扣减约 23.9%。',
+  '哪些订单结算为负，分别是什么原因':'本期有 <b>1 笔</b>订单结算为负:<b>IDN2608E1R7</b>（布艺收纳篮·大号，结算 −Rp 52.000）。原因是买家整单退款且判定<b>商家担责</b>,退回运费由本店承担，已归入差异台账「售后退货担责」。',
+  'STM-20260814-008 为什么打款失败':'结算单 <b>STM-20260814-008</b>（Rp 34.112.000）打款失败，原因是<b>银行账户信息校验未通过</b>。建议前往「提现设置 → 银行卡」更新账户后重试，金额不会丢失，会重新进入可提现队列。',
+  '真实净利润为什么只有结算额的两成':'平台结算额 <b>Rp 1.402.180.000</b> 只扣了平台费用，没扣你的<b>进货成本（−868.000.000）、广告（−82.900.000）、达人分佣（−58.400.000）、运营（−74.880.000）</b>。补齐后真实净利润为 <b>Rp 318.000.000</b>,净利率 17.3%——其中商品成本占大头，这是电商正常结构。',
+  '哪个渠道的净利率最高':'<b>商城货架净利率最高（22.6%）</b>,因为不含内容场的达人分佣与投流成本；短视频 19.2%、商品卡 20.1%、直播 14.8%。建议用内容场引流、货架场承接复购来提升整体利润率。',
+  '@gayahidup 的 ROI 为什么偏低':'@gayahidup 带货 ROI <b>6.2</b>,明显低于 @rumahrapi（25.1）和 @beautyzone（12.5）。原因是<b>分佣率最高（8.9%）但客单与转化偏弱</b>,且其主推的布艺收纳类目退货率高。建议复盘选品匹配度，或改为效果结算。',
+  '布艺收纳类目该不该继续加投':'谨慎。布艺收纳 GMV Rp 396.600.000 但<b>净利率仅 11.1%</b>,退货率 8.9%（远高于桌面收纳 4.1%）。建议先优化商品详情页与尺寸说明降低退货，再决定是否加投；当前应把预算倾斜给桌面收纳（净利率 21.4%）。'
+};
+function askAI(q){
+  pushMsg(q,'me');
+  setTimeout(()=>{
+    const a = ANSWERS[q] || `关于「${q}」:该问题会结合本店结算数据实时解答。演示环境中，Rami 会定位到对应的结算单 / 订单 / 归因维度，给出可溯源的明细与建议。`;
+    pushMsg(a,'bot');
+  },380);
+}
+function sendAI(){
+  const t=document.getElementById('aiInput');
+  if(!t.value.trim())return;
+  askAI(t.value.trim()); t.value='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.target.id==='aiInput'&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}
+  if(e.key==='Escape')closeDrawer();
+});
+function doExport(name){toast(`正在生成「${name}」导出文件…（演示环境：将按当前时间窗口与 IDR 口径导出）`);}
+
+/* ---- 轻提示 ---- */
+let toastTimer;
+function toast(msg){
+  let t=document.getElementById('__toast');
+  if(!t){t=document.createElement('div');t.id='__toast';
+    t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#161823;color:#fff;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:600;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.28);transition:.2s;opacity:0;';
+    document.body.appendChild(t);}
+  t.textContent=msg; t.style.opacity='1'; t.style.bottom='26px';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.bottom='16px';},2400);
+}
+
+/* ---- 初始化 ---- */
+renderSugs();
+go(document.querySelector('.nav-item'),'p-settle');
+
+</script>
+</body>
+</html>
